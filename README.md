@@ -16,6 +16,10 @@ $.jPop({
 });
 ```
 
+<img src="exmaple.png" alt="">
+
+**<a href="http://iancj.com/jPops/" target="_blank">点击查看更多例子</a>**
+
 jPops使用了bootstrap2的按钮样式，可以在jpops.css中修改将样式为任何样子
 
 ##参数
@@ -35,5 +39,3 @@ jPops使用了bootstrap2的按钮样式，可以在jpops.css中修改将样式�
 - **message** jPop的内容
 - **value** jpop prompt类型的默认值
 - **callback:function(){}** 回调函数
-
-<img src="exmaple.png" alt="">

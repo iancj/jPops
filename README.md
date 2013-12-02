@@ -2,21 +2,63 @@
 
 在页面中引入三个文件：```jQuery库```,```jquery.jpops.js```,```jpops.css```
 
-**例子：**
+**例子alert：**
 ```js
 $.jPop({
     title: "这是标题",
     content: "这是一条测试信息",
     type: "alert",
-    okButton: "确定",
-    cancelButton: "取消",
     callback: function(r) {
        //do something
     }
 });
 ```
+<img src="exm_alert.png" alt="">
 
-<img src="exmaple.png" alt="">
+**例子confirm：**
+```js
+$.jPop({
+    title: "这是标题",
+    content: "这是一条测试信息",
+    type: "confirm",
+    callback: function(r) {
+       //do something
+    }
+});
+```
+<img src="exm_confirm.png" alt="">
+
+**例子prompt：**
+```js
+$.jPop({
+    title: "这是标题",
+    content: "这是一条测试信息",
+    value: "默认值",
+    type: "prompt",
+    callback: function(r) {
+       //do something
+    }
+});
+```
+<img src="exm_prompt.png" alt="">
+
+**例子message：**
+
+```js
+$.jPop({
+    type:"message",
+    content:"测试信息测试信息",
+    messageOpts:{
+        type:"info",
+        timing:4000
+    },
+    callback:function(){
+        console.log("我是回调")
+    }
+});
+```
+
+<img src="exm_message.png" alt="">
 
 **<a href="http://iancj.com/jPops/" target="_blank">点击查看更多例子</a>**
 
@@ -33,9 +75,11 @@ jPops使用了bootstrap2的按钮样式，可以在jpops.css中修改将样式�
 - **okButtonClass** 确定按钮的样式
 - **cancelButton** 取消按钮的显示文字
 - **cancelButtonClass** 取消按钮的样式
-- **dialogClass** 在弹出窗最外层加上一个自定义的样式
 - **type** 弹出类型
 - **title** jPop的标题
 - **content** jPop的内容
 - **value** jpop prompt类型的默认值
+- **messageOpts** 弹出类型为message时的配置
+- **------type** 弹出类型为message时的状态
+- **------timing** 显示时间
 - **callback:function(){}** 回调函数

@@ -35,3 +35,5 @@ jPops使用了bootstrap2的按钮样式，可以在jpops.css中修改将样式�
 - **message** jPop的内容
 - **value** jpop prompt类型的默认值
 - **callback:function(){}** 回调函数
+
+<img src="exmaple.png" alt="">

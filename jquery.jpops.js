@@ -23,7 +23,7 @@ jQuery.jPop=function(options){
 		type:"alert",						// 弹出类型
 		title:"alert",						// jPop的标题
 		message:"",							// jPop的内容
-		value:"",							// Jpop prompt类型的默认值
+		value:"",							// jpop prompt类型的默认值
 		callback:function(){}				// 回调函数
 	},
 	opts=$.extend(def,options);

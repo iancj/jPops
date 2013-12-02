@@ -13,7 +13,11 @@
         <a href="javascript:;" class="btn" id="j_alert">alert</a>
         <a href="javascript:;" class="btn" id="j_confirm">confirm</a>
         <a href="javascript:;" class="btn" id="j_prompt">prompt</a>
-        <a href="javascript:;" class="btn" id="J_cust">custom</a>
+        <a href="javascript:;" class="btn" id="j_cust">custom</a>
+        <a href="javascript:;" class="btn j_msg" data-type="info">message-info</a>
+        <a href="javascript:;" class="btn j_msg" data-type="warning">message-warning</a>
+        <a href="javascript:;" class="btn j_msg" data-type="success">message-success</a>
+        <a href="javascript:;" class="btn j_msg" data-type="danger">message-danger</a>
     </div>
 
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
@@ -23,7 +27,7 @@
         $("#j_alert").click(function() {
             $.jPop({
                 title: "这是标题",
-                message: "这是一条测试信息",
+                content: "这是一条测试信息",
                 type: "alert",
                 okButton: "yes",
                 cancelButton: "no",
@@ -36,7 +40,7 @@
         $("#j_confirm").click(function() {
             $.jPop({
                 title: "这是标题",
-                message: "这是一条测试信息",
+                content: "这是一条测试信息",
                 type: "confirm",
                 okButton: "确定",
                 cancelButton: "取消",
@@ -49,7 +53,7 @@
         $("#j_prompt").click(function() {
             $.jPop({
                 title: "这是标题",
-                message: "这是一条测试信息",
+                content: "这是一条测试信息",
                 type: "prompt",
                 okButton: "确定",
                 cancelButton: "取消",
@@ -61,15 +65,30 @@
 
         var html = "<ul><li>1</li><li>2</li></ul>";
 
-        $("#J_cust").click(function() {
+        $("#j_cust").click(function() {
             $.jPop({
                 title: "这是标题",
-                message: html,
+                content: html,
                 type: "confirm",
                 okButton: "确定",
                 cancelButton: "取消",
                 callback: function(r) {
                     console.log(r);
+                }
+            });
+        });
+
+        $(".j_msg").click(function(){
+            var mtype=$(this).data("type");
+            $.jPop({
+                type:"message",
+                content:"测试信息测试信息",
+                messageOpts:{
+                    type:mtype,
+                    timing:4000
+                },
+                callback:function(){
+                    console.log("我是回调")
                 }
             });
         });

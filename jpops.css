@@ -3,6 +3,7 @@
 ul,dl{list-style:none;}
 a{text-decoration:none;color:#000;}
 h1,h2,h3,h4,h5,h6{font-size:100%;}
+body{font-family:"microsoft yahei";}
 /*====================================================buttons===================================================================*/
 .hide-text {
     font: 0/0 a;
@@ -369,9 +370,16 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
 	width:16px;
 	height:16px;
 	position:absolute;
-	right:5px;
+	right:10px;
 	top:12px;
 	z-index:999999;
+}
+
+.popupIcon i{
+    display:block;
+    width:16px;
+    height:16px;
+    background:url(close.png) no-repeat;
 }
 
 #popup_message {
@@ -387,3 +395,21 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
 	height:28px;
 	margin:10px 0 0;
 }
+
+#jPop_msg{
+    padding:0 10px;
+    min-width:200px;
+    height:50px;
+    line-height:50px;
+    background:#3078ee;
+    text-align: center;
+    color:#fff;
+    border:1px solid #d9d9d9;
+    box-shadow:1px 1px 1px #d9d9d9;
+    font-size:16px;
+    border-radius:5px;
+}
+#jPop_msg.info{background:#3078ee;}
+#jPop_msg.warning{background:#e48e05;}
+#jPop_msg.success{background:#12d208;}
+#jPop_msg.danger{background:#eb1818;}

@@ -1,6 +1,6 @@
 // jQuery Alert Dialogs Plugin
 //
-// Version 1.0
+// Version 1.1
 // iancj
 // 2013-12-02
 //
@@ -19,19 +19,27 @@ jQuery.jPop=function(options){
 		okButtonClass:"btn btn-primary",	// 确定按钮的样式
 		cancelButton: '取消',				// 取消按钮的显示文字
 		cancelButtonClass:"btn",			// 取消按钮的样式
-		dialogClass: null,                  // 在弹出窗最外层加上一个自定义的样式
-		type:"alert",						// 弹出类型
+		type:"alert",						// 弹出类型[alert|confirm|prompt|message]
 		title:"alert",						// jPop的标题
-		message:"",							// jPop的内容
+		content:"",							// jPop的内容
 		value:"",							// jpop prompt类型的默认值
+		messageOpts:{						// 弹出类型为message时的配置
+			type:"info",					// 弹出类型为message时的状态
+			timing:1500						// 显示时间
+		},
 		callback:function(){}				// 回调函数
 	},
 	opts=$.extend(def,options);
 
-	_show(opts.title,opts.message,opts.value,opts.type,opts.callback);
-
-	function _show(title, msg, value, type, callback) {	
-		_hide();
+	switch(opts.type){
+		case "alert":
+		case "confirm":
+		case "prompt":_showAlerts(opts.title,opts.content,opts.value,opts.type,opts.callback);break;
+		case "message":_showMessage(opts.content,opts.messageOpts.timing,opts.messageOpts.type,opts.callback);break;
+	}
+	
+	function _showAlerts(title, msg, value, type, callback) {	
+		_hideAlerts();
 		_overlay('show');
 		
 		$("body").append(
@@ -43,9 +51,7 @@ jQuery.jPop=function(options){
 			'</div>' +
 		  '</div>');
 
-		$("#popup_container .popupIcon").click(_hide);
-		
-		if( opts.dialogClass ) $("#popup_container").addClass(opts.dialogClass);
+		$("#popup_container .popupIcon").click(_hideAlerts);
 		
 		// IE6 Fix
 		var pos = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed'; 
@@ -66,18 +72,18 @@ jQuery.jPop=function(options){
 			case 'alert':
 				$("#popup_message").after('<div id="popup_panel"><input type="button" class="'+opts.okButtonClass+'" value="' + opts.okButton + '" id="popup_ok" /></div>');
 				$("#popup_ok").click( function() {
-					_hide();
+					_hideAlerts();
 					callback(true);
 				});
 			break;
 			case 'confirm':
 				$("#popup_message").after('<div id="popup_panel"><input type="button" class="'+opts.okButtonClass+'" value="' + opts.okButton + '" id="popup_ok" /> <input type="button" class="'+opts.cancelButtonClass+'" value="' + opts.cancelButton + '" id="popup_cancel" /></div>');
 				$("#popup_ok").click( function() {
-					_hide();
+					_hideAlerts();
 					if( callback ) callback(true);
 				});
 				$("#popup_cancel").click( function() {
-					_hide();
+					_hideAlerts();
 					if( callback ) callback(false);
 				});
 			break;
@@ -86,11 +92,11 @@ jQuery.jPop=function(options){
 				$("#popup_prompt").width( $("#popup_message").width());
 				$("#popup_ok").click( function() {
 					var val = $("#popup_prompt").val();
-					_hide();
+					_hideAlerts();
 					if( callback ) callback( val );
 				});
 				$("#popup_cancel").click( function() {
-					_hide();
+					_hideAlerts();
 					if( callback ) callback( null );
 				});
 				if( value ) $("#popup_prompt").val(value);
@@ -103,7 +109,35 @@ jQuery.jPop=function(options){
 		
 	}
 
-	function _hide() {
+	function _showMessage(msg,timing,type,callback){
+		if($("#jPop_msg").length != 1){
+			$("body").append("<div id='jPop_msg'></div>");
+			var pos = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed'; 
+			$("#jPop_msg").hide().css({
+				position: pos,
+				zIndex: 99999
+			});
+        }
+
+        if(window.jPopTimer){
+        	clearTimeout(window.jPopTimer);
+        }
+
+        var jPop_msg=$("#jPop_msg");
+
+        jPop_msg.text(msg).removeClass("info warning success danger").addClass(type).fadeIn(500);
+
+		_reposition(jPop_msg);
+
+		window.jPopTimer=setTimeout(function(){
+			jPop_msg.fadeOut(500);
+		},timing);
+
+		if(callback) callback(true);
+
+	}
+
+	function _hideAlerts() {
 		$("#popup_container").remove();
 		_overlay('hide');
 		_maintainPosition(false);
@@ -131,16 +165,20 @@ jQuery.jPop=function(options){
 		}
 	}
 		
-	function _reposition() {
-		var top = (($(window).height() / 2) - ($("#popup_container").outerHeight() / 2)) + opts.verticalOffset;
-		var left = (($(window).width() / 2) - ($("#popup_container").outerWidth() / 2)) + opts.horizontalOffset;
+	function _reposition(dom) {
+		if(!dom){
+			dom=$("#popup_container");
+		}
+		
+		var top = (($(window).height() / 2) - (dom.outerHeight() / 2)) + opts.verticalOffset;
+		var left = (($(window).width() / 2) - (dom.outerWidth() / 2)) + opts.horizontalOffset;
 		if( top < 0 ) top = 0;
 		if( left < 0 ) left = 0;
 		
 		// IE6 fix
 		if( $.browser.msie && parseInt($.browser.version) <= 6 ) top = top + $(window).scrollTop();
 		
-		$("#popup_container").css({
+		dom.css({
 			top: top + 'px',
 			left: left + 'px'
 		});

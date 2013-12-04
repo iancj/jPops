@@ -1,13 +1,9 @@
 // jQuery Alert Dialogs Plugin
-//
 // Version 1.1
 // iancj
 // 2013-12-02
-//
 // Visit http://github.com/iancj for more information
-//
-// 
-//
+
 jQuery.jPop=function(options){
 	var def={
 		verticalOffset: -75,                // 垂直偏移量（px）
@@ -19,26 +15,56 @@ jQuery.jPop=function(options){
 		okButtonClass:"btn btn-primary",	// 确定按钮的样式
 		cancelButton: '取消',				// 取消按钮的显示文字
 		cancelButtonClass:"btn",			// 取消按钮的样式
-		type:"alert",						// 弹出类型[alert|confirm|prompt|message]
+		type:"",						// 弹出类型[alert|confirm|prompt|message|progress]
 		title:"alert",						// jPop的标题
 		content:"",							// jPop的内容
 		value:"",							// jpop prompt类型的默认值
-		messageOpts:{						// 弹出类型为message时的配置
-			type:"info",					// 弹出类型为message时的状态
-			timing:1500						// 显示时间
-		},
-		callback:function(){}				// 回调函数
+		callback:function(){},				// 回调函数
+		closeProgress:false
 	},
+	messageOpts={							// 弹出类型为message时的配置
+		type:"info",						// 弹出类型为message时的状态[info|success|warning|danger]
+		timing:1500							// 显示时间
+	},
+	progressOpts={							// 弹出类型为progress时的配置
+		width:400,							// 滚动条总宽度
+		percent:10,							// 滚动条当前百分比
+		type:"info",						// 滚动条样式[info|success|warning|danger]
+		isactive:true						// 是否显示动画
+	},
+	updateProgress={						// 更新进度条的参数
+		percent:10
+	};
 	opts=$.extend(def,options);
+	opts.messageOpts=$.extend(messageOpts,options.messageOpts);
+	opts.progressOpts=$.extend(progressOpts,options.progressOpts);
+	opts.updateProgress=$.extend(updateProgress,options.updateProgress);
+
+
+	if(opts.closeProgress){
+		opts.type="progress";
+		_hideAlerts();
+	}
+
+	if($("#popup_progress").length == 1){
+		$("#popup_progress").find(".bar").css({"width":opts.updateProgress.percent+"%"});
+	}
 
 	switch(opts.type){
 		case "alert":
 		case "confirm":
-		case "prompt":_showAlerts(opts.title,opts.content,opts.value,opts.type,opts.callback);break;
-		case "message":_showMessage(opts.content,opts.messageOpts.timing,opts.messageOpts.type,opts.callback);break;
+		case "prompt":_showAlerts(opts.content,opts.title,opts.value,opts.type,opts.callback);break;
+		case "message":_showMessage(opts.content,opts.title,opts.messageOpts.timing,opts.messageOpts.type,opts.callback);break;
+		case "progress":_showProgress(opts.content, opts.progressOpts.width, opts.progressOpts.percent, opts.progressOpts.type, opts.progressOpts.isactive, opts.callback);break;
 	}
+
+
 	
-	function _showAlerts(title, msg, value, type, callback) {	
+	//弹窗类型
+	function _showAlerts(msg, title, value, type, callback) {	
+		if(window.jPopTimer){
+        	clearTimeout(window.jPopTimer);
+        }
 		_hideAlerts();
 		_overlay('show');
 		
@@ -57,8 +83,8 @@ jQuery.jPop=function(options){
 		var pos = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed'; 
 		
 		$("#popup_container").css({
-			position: pos,
-			zIndex: 99999
+			"position": pos,
+			"zIndex": 99999
 		});
 		
 		$("#popup_title").text(title);
@@ -109,36 +135,86 @@ jQuery.jPop=function(options){
 		
 	}
 
-	function _showMessage(msg,timing,type,callback){
-		if($("#jPop_msg").length != 1){
-			$("body").append("<div id='jPop_msg'></div>");
+	//消息类型
+	function _showMessage(msg,title,timing,type,callback){
+
+		if($("#popup_container").length != 1){
+			var html='<div id="popup_container" class="'+type+'">' +
+					'<h1 id="popup_title">'+title+'</h1>' +
+					'<a href="javascript:;" class="popupIcon"><i class="gicon-remove white"></i></a>'+
+					'<div id="popup_content">' +
+						'<div id="popup_message">'+msg+'</div>' +
+					'</div>' +
+				'</div>';
+
+			$("body").append(html);
 			var pos = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed'; 
-			$("#jPop_msg").hide().css({
-				position: pos,
-				zIndex: 99999
+			$("#popup_container").hide().css({
+				"position": pos,
+				"zIndex": 99999
 			});
         }
+
+        $(".popupIcon").click(_hideAlerts);
 
         if(window.jPopTimer){
         	clearTimeout(window.jPopTimer);
         }
 
-        var jPop_msg=$("#jPop_msg");
+        var popup_container=$("#popup_container");
 
-        jPop_msg.text(msg).removeClass("info warning success danger").addClass(type).fadeIn(500);
+        _overlay("show");
+        popup_container.show();
 
-		_reposition(jPop_msg);
+		_reposition(popup_container);
 
 		window.jPopTimer=setTimeout(function(){
-			jPop_msg.fadeOut(500);
+			_hideAlerts();
+			if(callback) callback(true);
 		},timing);
-
-		if(callback) callback(true);
-
 	}
+
+	//全屏遮罩进度条
+	function _showProgress(msg,width,percent,type,isactive,callback){
+		if(opts.closeProgress){
+			return;
+		}
+
+		if($("#popup_progress").length != 1){
+			var html='<div id="popup_progress" style="width:'+width+'px;">'+
+				'<h4 class="title">'+msg+'</h4>';
+				if(isactive){
+					html+='<div class="progress progress-striped active">';
+				}
+				else{
+					html+='<div class="progress">';
+				}
+				html+='<div class="bar bar-'+type+'" style="width:'+percent+'%;"></div></div></div>';
+			$("body").append(html);
+
+			var pos = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed'; 
+
+			$("#popup_progress").hide().css({
+				"top":130,
+				"left":"50%",
+				"marginLeft":-width/2,
+				"textAlign":"center",
+				"position": pos,
+				"zIndex": 99999
+			});
+		}
+
+		var progress=$("#popup_progress");
+
+		progress.show();
+		_overlay("show");
+		
+	}
+
 
 	function _hideAlerts() {
 		$("#popup_container").remove();
+		$("#popup_progress").hide();
 		_overlay('hide');
 		_maintainPosition(false);
 	}
@@ -197,4 +273,10 @@ jQuery.jPop=function(options){
 			}
 		}
 	}
+
+	
+		function progress(){
+			console.log("asd")
+		}
+	
 };

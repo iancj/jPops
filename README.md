@@ -13,7 +13,7 @@ $.jPop({
     }
 });
 ```
-<img src="exm_alert.png" alt="">
+<img src="images/exm_alert.png" alt="">
 
 **例子confirm：**
 ```js
@@ -26,7 +26,7 @@ $.jPop({
     }
 });
 ```
-<img src="exm_confirm.png" alt="">
+<img src="images/exm_confirm.png" alt="">
 
 **例子prompt：**
 ```js
@@ -40,7 +40,7 @@ $.jPop({
     }
 });
 ```
-<img src="exm_prompt.png" alt="">
+<img src="images/exm_prompt.png" alt="">
 
 **例子message：**
 
@@ -58,7 +58,7 @@ $.jPop({
 });
 ```
 
-<img src="exm_message.png" alt="">
+<img src="images/exm_message.png" alt="">
 
 **<a href="http://iancj.com/jPops/" target="_blank">点击查看更多例子</a>**
 

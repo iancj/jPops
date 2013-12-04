@@ -409,7 +409,13 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
     font-size:16px;
     border-radius:5px;
 }
-#jPop_msg.info{background:#3078ee;}
-#jPop_msg.warning{background:#e48e05;}
-#jPop_msg.success{background:#12d208;}
-#jPop_msg.danger{background:#eb1818;}
+#popup_container.info #popup_title{background:#3078ee;}
+#popup_container.warning #popup_title{background:#e48e05;}
+#popup_container.success #popup_title{background:#12d208;}
+#popup_container.danger #popup_title{background:#eb1818;}
+/*popup_progress*/
+#popup_progress .title{
+    font-size:16px;
+    text-shadow:1px 1px 0px #fff;
+    padding-bottom:10px;
+}

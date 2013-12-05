@@ -30,8 +30,8 @@ Zepto.jPops={
 					'<a href="javascript:;" class="popup-close"></a>'+
 					'<div class="popup-content"></div>'+
 					'<div class="popup-panel">'+
-						'<a href="javascrip:;" class="popup-ok"></a>'+
-						'<a href="javascrip:;" class="popup-cancel"></a>'+
+						'<a href="javascript:;" class="popup-ok"></a>'+
+						'<a href="javascript:;" class="popup-cancel"></a>'+
 					'</div>'+
 				'</section>';
 
@@ -54,6 +54,7 @@ Zepto.jPops={
 		btnOk.text(opts.okButton);
 		btnCancel.text(opts.cancelButton);
 		pop.show();
+		pop.css({"marginTop":-$(".popup-container").height()/2});
 
 		btnOk.click(function(){
 			self.hideAlerts();
@@ -61,6 +62,7 @@ Zepto.jPops={
 				opts.callback(true);
 				opts.callback=null;
 			}
+			return false;
 		});
 
 		btnCancel.click(function(){
@@ -69,6 +71,7 @@ Zepto.jPops={
 				opts.callback(false);
 				opts.callback=null;
 			}
+			return false;
 		});
 
 		btnClose.click(function(){
@@ -77,6 +80,7 @@ Zepto.jPops={
 				opts.callback(false);
 				opts.callback=null;
 			}
+			return false;
 		})
 
 	},

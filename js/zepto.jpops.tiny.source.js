@@ -30,8 +30,8 @@ Zepto.jPops={
 					'<a href="javascript:;" class="popup-close"></a>'+
 					'<div class="popup-content"></div>'+
 					'<div class="popup-panel">'+
-						'<a href="javascript:;" class="popup-ok"></a>'+
-						'<a href="javascript:;" class="popup-cancel"></a>'+
+						'<a href="javascript:;" class="popup-ok">'+opts.okButton+'</a>'+
+						'<a href="javascript:;" class="popup-cancel">'+opts.cancelButton+'</a>'+
 					'</div>'+
 				'</section>';
 
@@ -51,8 +51,8 @@ Zepto.jPops={
 		}
 
 		pop.find(".popup-content").text(opts.content);
-		btnOk.text(opts.okButton);
-		btnCancel.text(opts.cancelButton);
+		// btnOk.text(opts.okButton);
+		// btnCancel.text(opts.cancelButton);
 		pop.show();
 		pop.css({"marginTop":-$(".popup-container").height()/2});
 

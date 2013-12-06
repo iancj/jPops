@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>jQuery Plugin jPops</title>
     <link rel="stylesheet" href="css/jpops.source.css">
-    <link rel="stylesheet" href="css/progress.css">
+    <link rel="stylesheet" href="css/bt.progress.css">
+    <link rel="stylesheet" href="css/bt.buttons.css">
     <style>
     .title{
         text-align:center;
@@ -78,6 +79,7 @@
             <div class="bar bar-danger" style="width: 10%;"></div>
         </div>
         <!-- demo7 -->
+
     </div>
 
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
@@ -85,97 +87,112 @@
     <script>
     $(function() {
         $("#j_alert").click(function() {
-            $.jPop({
-                title: "这是标题",
-                content: "这是一条测试信息",
-                type: "alert",
-                okButton: "yes",
-                cancelButton: "no",
-                callback: function(r) {
-                    console.log(r);
+           $.jPops.alert({
+                title:"这是标题-alert",
+                content:"这是测试信息-alert",
+                okButton:"确定",
+                callback:function(r){
+                    if(r){
+                        console.log("我是alert的回调")
+                    }
                 }
             });
         });
 
         $("#j_confirm").click(function() {
-            $.jPop({
-                title: "这是标题",
-                content: "这是一条测试信息",
-                type: "confirm",
-                okButton: "确定",
-                cancelButton: "取消",
-                callback: function(r) {
-                    console.log(r);
+             $.jPops.confirm({
+                title:"这是标题-confirm",
+                content:"这是测试信息-confirm",
+                okButton:"确定",
+                cancelButton:"取消",
+                callback:function(r){
+                    if(r){
+                        console.log("我是confirm的回调,true");
+                    }
+                    else{
+                        console.log("我是confirm的回调,false");
+                    }
                 }
             });
         });
 
         $("#j_prompt").click(function() {
-            $.jPop({
-                title: "这是标题",
-                content: "这是一条测试信息",
-                type: "prompt",
-                okButton: "确定",
-                cancelButton: "取消",
-                callback: function(r) {
-                    console.log(r);
+            $.jPops.prompt({
+                title:"这是标题-prompt",
+                content:"请填写内容：",
+                defaultValue:"这是默认值-prompt",
+                okButton:"确定",
+                cancelButton:"取消",
+                callback:function(val){
+                    if(val){
+                        console.log("我是prompt的回调,value:"+val);
+                    }
+                    else{
+                        console.log("我是prompt的回调,value:"+val);
+                    }
                 }
             });
         });
 
-        var html = "<ul><li>1</li><li>2</li></ul>";
+        // var html = "<ul><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li></ul>";
+        var html="<div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div>";
 
         $("#j_cust").click(function() {
-            $.jPop({
-                title: "这是标题",
-                content: html,
-                type: "confirm",
-                okButton: "确定",
-                cancelButton: "取消",
-                callback: function(r) {
-                    console.log(r);
+           $.jPops.confirm({
+                title:"这是标题-自定义html",
+                content:html,
+                okButton:"确定",
+                cancelButton:"取消",
+                callback:function(r){
+                    if(r){
+                        console.log("我是自定义html的回调,true");
+                    }
+                    else{
+                        console.log("我是自定义html的回调,false");
+                    }
                 }
             });
         });
 
         $(".j_msg").click(function(){
             var mtype=$(this).data("type");
-            $.jPop({
-                type:"message",
-                title:"这是测试信息标题",
+            $.jPops.message({
+                title:"这是标题",
                 content:"测试信息测试信息",
-                messageOpts:{
-                    type:mtype,
-                    timing:4000
-                },
-                callback:function(){
-                    console.log("我是回调")
+                messageType:mtype,
+                messageTimging:3000,
+                callback:function(r){
+                    if(r){
+                        console.log("我是message的回调");
+                    }
                 }
             });
         });
 
         $(".j_progress").click(function(){
-            $.jPop({
-                type:"progress",
-                content:"正在加载中",
-                progressOpts:{
-                    type:"info",
-                    width:500,
-                    percent:10
-                }
+            $.jPops.progress({
+                content:"这是进度条",
+                width:1000,
+                progressPer:50,
+                progressType:"danger",
+                progressActived:true
             });
 
             setTimeout(function(){
-               $.jPop({
-                    updateProgress:{percent:50}
+                $.jPops.progressUpdate({
+                    content:"还差一点点",
+                    progressPer:80,
+                    progressType:"success",
+                    callback:function(){
+                        setTimeout(function(){
+                            $.jPops.progressHide();
+                        },1000)
+                    }
                 });
-            },2000);
-
-            setTimeout(function(){
-                $.jPop({closeProgress:true});
             },3000);
-            
         });
+
+        
         
     });
     </script>

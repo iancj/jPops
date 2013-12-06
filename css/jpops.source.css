@@ -5,21 +5,6 @@ a{text-decoration:none;color:#000;}
 h1,h2,h3,h4,h5,h6{font-size:100%;}
 body{font-family:"microsoft yahei";}
 /*====================================================buttons===================================================================*/
-.hide-text {
-    font: 0/0 a;
-    color: transparent;
-    text-shadow: none;
-    background-color: transparent;
-    border: 0;
-}
-.input-block-level {
-    display: block;
-    width: 100%;
-    min-height: 30px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
 .btn {
     display: inline-block;
     *display: inline;
@@ -342,7 +327,7 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
     text-decoration: none;
 }
 /*=======================================jPops======================================*/
-#popup_container {
+.popup-container {
 	min-width: 400px;
 	max-width: 700px;
 	background: #FFF;
@@ -352,7 +337,7 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
 	overflow:hidden;
 }
 
-#popup_title {
+.popup-title {
 	font-size:14px;
 	line-height:40px;
 	text-indent:10px;
@@ -361,11 +346,11 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
 	background:#0088CC;
 }
 
-#popup_content {
-	padding:15px 20px;
+.popup-content {
+	padding:20px 10px;
 }
 
-.popupIcon{
+.popup-close{
 	display:block;
 	width:16px;
 	height:16px;
@@ -375,28 +360,42 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
 	z-index:999999;
 }
 
-.popupIcon i{
+.popup-close i{
     display:block;
     width:16px;
     height:16px;
-    background:url(close.png) no-repeat;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACiSURBVDhPjZMBDoAgCEU9QkfsRnWDulGdSOObOHSAsLVm8f7ADylRlFK2nPNDz4GzF5R7IxdMzWOY3jXo52UJABZ5vwgBL3/0RCQsRVDBPgvMlWhwY3ZuwxRZwtyvVYlWHXLVewqK6HCwEh9utnarIu4MrTgX1rXMOYnA5px4Vi3nJOKzI3Kqo6z5rIlgDXiZ5D6YVkmRtkPDRkJk6TNyJPwBdZOPexUo35wAAAAASUVORK5CYII=") no-repeat;
 }
 
-#popup_message {
+.popup-message {
 	font-family:"microsoft yahei";
+	font-size:14px;
 }
 
-#popup_panel {
-	padding:10px 0 0;
+.popup-panel {
+	padding:10px;
 	text-align: right;
+	background:#eee;
+	border-top:1px solid #cacaca;
 }
 
-#popup_prompt {
-	height:28px;
+.popup-prompt {
+	border:1px solid #cacaca;
+	padding:3px 1%;
+	line-height:25px;
 	margin:10px 0 0;
 }
 
-#jPop_msg{
+.popup-prompt input{
+	height:25px;
+	width:98%;
+	border:none;
+	background:none;
+	outline:none;
+	font-size:12px;
+}
+
+.jPop-msg{
     padding:0 10px;
     min-width:200px;
     height:50px;
@@ -409,12 +408,12 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
     font-size:16px;
     border-radius:5px;
 }
-#popup_container.info #popup_title{background:#3078ee;}
-#popup_container.warning #popup_title{background:#e48e05;}
-#popup_container.success #popup_title{background:#12d208;}
-#popup_container.danger #popup_title{background:#eb1818;}
-/*popup_progress*/
-#popup_progress .title{
+.popup-container.info .popup-title{background:#3078ee;}
+.popup-container.warning .popup-title{background:#e48e05;}
+.popup-container.success .popup-title{background:#12d208;}
+.popup-container.danger .popup-title{background:#eb1818;}
+/*popup-progress*/
+.popup-progress .content{
     font-size:16px;
     text-shadow:1px 1px 0px #fff;
     padding-bottom:10px;

@@ -1,15 +1,17 @@
 ##用法
 
-在页面中引入三个文件：```jQuery库```,```jquery.jpops.js```,```jpops.css```
+jPops依赖于```jQuery```，jPop主体js```jquery.jpops.js```,jPops样式```jpops.source.css```
 
 **例子alert：**
 ```js
-$.jPop({
-    title: "这是标题",
-    content: "这是一条测试信息",
-    type: "alert",
-    callback: function(r) {
-       //do something
+$.jPops.alert({
+    title:"这是标题-alert",
+    content:"这是测试信息-alert",
+    okButton:"确定",
+    callback:function(r){
+        if(r){
+            console.log("我是alert的回调")
+        }
     }
 });
 ```
@@ -17,12 +19,18 @@ $.jPop({
 
 **例子confirm：**
 ```js
-$.jPop({
-    title: "这是标题",
-    content: "这是一条测试信息",
-    type: "confirm",
-    callback: function(r) {
-       //do something
+$.jPops.confirm({
+    title:"这是标题-confirm",
+    content:"这是测试信息-confirm",
+    okButton:"确定",
+    cancelButton:"取消",
+    callback:function(r){
+        if(r){
+            console.log("我是confirm的回调,true");
+        }
+        else{
+            console.log("我是confirm的回调,false");
+        }
     }
 });
 ```
@@ -30,17 +38,44 @@ $.jPop({
 
 **例子prompt：**
 ```js
-$.jPop({
-    title: "这是标题",
-    content: "这是一条测试信息",
-    value: "默认值",
-    type: "prompt",
-    callback: function(r) {
-       //do something
+$.jPops.prompt({
+    title:"这是标题-prompt",
+    content:"请填写内容：",
+    defaultValue:"这是默认值-prompt",
+    okButton:"确定",
+    cancelButton:"取消",
+    callback:function(val){
+        if(val){
+            console.log("我是prompt的回调,value:"+val);
+        }
+        else{
+            console.log("我是prompt的回调,value:"+val);
+        }
     }
 });
 ```
+
 <img src="images/exm_prompt.png" alt="">
+
+**例子message：**
+```js
+$.jPops.message({
+    title:"这是标题",
+    content:"测试信息测试信息",
+    messageType:mtype,
+    messageTimging:3000,
+    callback:function(r){
+        if(r){
+            console.log("我是message的回调");
+        }
+    }
+});
+```
+
+<img src="images/exm_msg_info.png" alt="">
+<img src="images/exm_msg_success.png" alt="">
+<img src="images/exm_msg_warning.png" alt="">
+<img src="images/exm_msg_progress.png" alt="">
 
 **例子message：**
 

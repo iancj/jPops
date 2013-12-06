@@ -1,6 +1,6 @@
 ##用法
 
-jPops依赖于```jQuery```，jPop主体js```jquery.jpops.js```,jPops样式```jpops.source.css```
+jPops依赖于```jQuery```，jPops主体js```jquery.jpops.js```,jPops样式```jpops.source.css```
 
 **alert:**
 ```js

@@ -2,7 +2,7 @@
 
 jPops依赖于```jQuery```，jPop主体js```jquery.jpops.js```,jPops样式```jpops.source.css```
 
-**例子alert：**
+**alert:**
 ```js
 $.jPops.alert({
     title:"这是标题-alert",
@@ -15,9 +15,8 @@ $.jPops.alert({
     }
 });
 ```
-<img src="images/exm_alert.png" alt="">
 
-**例子confirm：**
+**confirm:**
 ```js
 $.jPops.confirm({
     title:"这是标题-confirm",
@@ -34,9 +33,8 @@ $.jPops.confirm({
     }
 });
 ```
-<img src="images/exm_confirm.png" alt="">
 
-**例子prompt：**
+**prompt:**
 ```js
 $.jPops.prompt({
     title:"这是标题-prompt",
@@ -55,9 +53,7 @@ $.jPops.prompt({
 });
 ```
 
-<img src="images/exm_prompt.png" alt="">
-
-**例子message：**
+**message:**
 ```js
 $.jPops.message({
     title:"这是标题",
@@ -72,49 +68,69 @@ $.jPops.message({
 });
 ```
 
-<img src="images/exm_msg_info.png" alt="">
-<img src="images/exm_msg_success.png" alt="">
-<img src="images/exm_msg_warning.png" alt="">
-<img src="images/exm_msg_progress.png" alt="">
-
-**例子message：**
-
+**自定义html confirm:**
 ```js
-$.jPop({
-    type:"message",
-    content:"测试信息测试信息",
-    messageOpts:{
-        type:"info",
-        timing:4000
-    },
-    callback:function(){
-        console.log("我是回调")
+var html="<div>测试自定义html</div>";
+
+$.jPops.confirm({
+    title:"这是标题-自定义html",
+    content:html,
+    okButton:"确定",
+    cancelButton:"取消",
+    callback:function(r){
+        if(r){
+            console.log("我是自定义html的回调,true");
+        }
+        else{
+            console.log("我是自定义html的回调,false");
+        }
     }
 });
 ```
 
-<img src="images/exm_message.png" alt="">
+**progress:**
+```js
+//初始化进度条
+$.jPops.progress({
+    content:"这是进度条",
+    width:1000,
+    progressPer:50,
+    progressType:"danger",
+    progressActived:true,
+    callback:function(){
+        //do something
+    }
+});
 
-**<a href="http://iancj.com/jPops/" target="_blank">点击查看更多例子</a>**
+//更新进度条数据信息
+$.jPops.progressUpdate({
+    content:"还差一点点",
+    progressPer:80,
+    progressType:"success",
+    callback:function(){
+        $.jPops.progressHide();//关闭进度条
+    }
+});
+```
 
-jPops使用了bootstrap2的按钮样式，可以在jpops.css中修改将样式为任何样子
+**<a href="http://iancj.com/jPops/" target="_blank">点击查看在线示例</a>**
+
+_jPops使用了bootstrap2的按钮样式和进度条样式，可以在jpops.source.css中修改将样式为任何样子_
 
 ##参数
 
-- **verticalOffset** 垂直偏移量（px）
-- **horizontalOffset** 水平偏移量（px）
-- **repositionOnResize** 当页面改变大小时自动调整位置
-- **overlayOpacity** 遮罩层透明度
-- **overlayColor** 遮罩层背景色
-- **okButton** 确定按钮的显示文字
-- **okButtonClass** 确定按钮的样式
-- **cancelButton** 取消按钮的显示文字
-- **cancelButtonClass** 取消按钮的样式
-- **type** 弹出类型
-- **title** jPop的标题
-- **content** jPop的内容
-- **value** jpop prompt类型的默认值
-- **messageOpts** 弹出类型为message时的配置
-- **------type** 弹出类型为message时的状态
-- **------timing** 显示时间
-- **callback:function(){}** 回调函数
+- **content** 提示窗内容
+- **title** 窗体标题
+- **defaultValue** prompt默认值
+- **messageType** message类型弹窗的风格[info|warning|success|danger]
+- **messageTimging** message类型弹窗的显示时间
+- **progressPer** 进度条百分比
+- **progressType** 进度条风格[info|warning|success|danger]
+- **progressActived** 是否显示进度条动画
+- **okButton** 确定按钮文字
+- **cancelButton** 取消按钮文字
+- **verticalOffset** Y轴偏移量
+- **horizontalOffset** X轴偏移量
+- **overlayOpacity**  遮罩层透明度
+- **overlayColor**  遮罩层背景色
+- **callback** 回调函数

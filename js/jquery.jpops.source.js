@@ -145,7 +145,7 @@ jQuery.jPops={
 		if($(".popup-container").length<1){
 			var html='<div class="popup-container">' +
 						'<h1 class="popup-title"></h1>' +
-						'<a href="javascript:;" class="popup-close"><i class="gicon-remove white"></i></a>'+
+						'<a href="javascript:;" class="popup-close"></a>'+
 						'<div class="popup-content">' +
 							'<div class="popup-message"></div>' +
 							'<div class="popup-prompt"><input type="text"></div>'+

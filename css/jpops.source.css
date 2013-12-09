@@ -39,14 +39,8 @@ body{font-family:"microsoft yahei";}
 	position:absolute;
 	right:10px;
 	top:12px;
-	z-index:999999;
-}
-
-.popup-close i{
-    display:block;
-    width:16px;
-    height:16px;
     background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACiSURBVDhPjZMBDoAgCEU9QkfsRnWDulGdSOObOHSAsLVm8f7ADylRlFK2nPNDz4GzF5R7IxdMzWOY3jXo52UJABZ5vwgBL3/0RCQsRVDBPgvMlWhwY3ZuwxRZwtyvVYlWHXLVewqK6HCwEh9utnarIu4MrTgX1rXMOYnA5px4Vi3nJOKzI3Kqo6z5rIlgDXiZ5D6YVkmRtkPDRkJk6TNyJPwBdZOPexUo35wAAAAASUVORK5CYII=") no-repeat;
+	z-index:999999;
 }
 
 .popup-message {

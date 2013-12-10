@@ -29,6 +29,8 @@
         <a href="javascript:;" class="btn btn-success j_msg" data-type="success">message-success</a>
         <a href="javascript:;" class="btn btn-danger j_msg" data-type="danger">message-danger</a>
         <a href="javascript:;" class="btn btn-primary j_progress">progress bar</a>
+        <a href="javascript:;" class="btn btn-primary j_loading">loading</a>
+        <a href="javascript:;" class="btn btn-primary j_loading_hide">hide loading</a>
     </div>
 
     <h1 class="title">progress bar示例</h1>
@@ -158,7 +160,7 @@
                 title:"这是标题",
                 content:"测试信息测试信息",
                 messageType:mtype,
-                messageTimging:3000,
+                messageTimging:2000,
                 callback:function(r){
                     if(r){
                         console.log("我是message的回调");
@@ -190,7 +192,13 @@
             },3000);
         });
 
-        
+        $(".j_loading").click(function(){
+            $.jPops.showLoading();
+        });
+
+        $(".j_loading_hide").click(function(){
+            $.jPops.hideLoading();
+        });
         
     });
     </script>

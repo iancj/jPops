@@ -60,6 +60,7 @@ $.jPops.message({
     content:"测试信息测试信息",
     messageType:mtype,
     messageTimging:3000,
+    messageAutoHide:true,
     callback:function(r){
         if(r){
             console.log("我是message的回调");
@@ -113,6 +114,15 @@ $.jPops.progressUpdate({
 });
 ```
 
+**progress:**
+```js
+//显示loading
+$.jPops.showLoading();
+
+//隐藏loading
+$.jPops.hideLoading();
+```
+
 **<a href="http://iancj.com/jPops/" target="_blank">点击查看在线示例</a>**
 
 _jPops使用了bootstrap2的按钮样式和进度条样式，可以在jpops.source.css中修改将样式为任何样子_
@@ -124,6 +134,7 @@ _jPops使用了bootstrap2的按钮样式和进度条样式，可以在jpops.sour
 - **defaultValue** prompt默认值
 - **messageType** message类型弹窗的风格[info|warning|success|danger]
 - **messageTimging** message类型弹窗的显示时间
+- **messageAutoHide** message类型弹窗是否自动隐藏(默认true)
 - **progressPer** 进度条百分比
 - **progressType** 进度条风格[info|warning|success|danger]
 - **progressActived** 是否显示进度条动画

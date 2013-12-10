@@ -39,6 +39,7 @@ jQuery.jPops={
 	message:function(options){
 		this.conf.messageType="info";//信息窗类型
 		this.conf.messageTimging=1500;//信息窗显示时间
+		this.conf.messageAutoHide=true;//是否自动隐藏
 		var opts=$.extend(this.conf,options);//合并配置参数
 			opts.type="message";//设定为message类型
 			
@@ -211,7 +212,6 @@ jQuery.jPops={
 		if(opts.type!="message"){
 			//确定按钮事件
 			btnOk.click(function(){
-				self.hideAlerts();
 				if(opts.callback){
 					if(opts.type=="prompt"){
 						var val=$(".popup-container").find(".popup-prompt input").val();
@@ -222,12 +222,12 @@ jQuery.jPops={
 					}
 					opts.callback=null;
 				}
+				self.hideAlerts();
 				return false;
 			});
 
 			// 取消按钮事件
 			btnCancel.click(function(){
-				self.hideAlerts();
 				if(opts.callback){
 					if(opts.type=="prompt"){
 						opts.callback(null);
@@ -237,6 +237,7 @@ jQuery.jPops={
 					}
 					opts.callback=null;
 				}
+				self.hideAlerts();
 				return false;
 			});
 
@@ -248,18 +249,20 @@ jQuery.jPops={
 		}
 		else{//当类型为message时
 			var handler_closeMsg=function(){
-				self.hideAlerts();
 				pop.removeClass(opts.messageType);
 				btnClose.unbind("click");
 				if(opts.callback){
 					opts.callback(true);
 					opts.callback=null;
 				}
+				self.hideAlerts();
 			};
 
 			//计时器
-			self.timer=setTimeout(handler_closeMsg,opts.messageTimging);
-
+			if(opts.messageAutoHide){
+				self.timer=setTimeout(handler_closeMsg,opts.messageTimging);
+			}
+			
 			//关闭按钮事件
 			btnClose.click(handler_closeMsg);
 		}
@@ -287,6 +290,16 @@ jQuery.jPops={
 	},
 	hideOverlay:function(){
 		$(".popup-overlay").hide();
+	},
+	showLoading:function(){
+		if($(".popup-loading").length<1){
+			var html='<div class="popup-loading" style="display:none;"></div>';
+			$("body").append(html);
+		}
+		$(".popup-loading").fadeIn(300);
+	},
+	hideLoading:function(){
+		$(".popup-loading").fadeOut(300);
 	},
 	reposition:function(opts){
 		//更新窗体位置

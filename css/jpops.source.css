@@ -94,3 +94,17 @@ body{font-family:"microsoft yahei";}
     text-shadow:1px 1px 0px #fff;
     padding-bottom:10px;
 }
+/*popup-loading*/
+.popup-loading{
+	display:block;
+	position:fixed;
+	top:50%;
+	left:50%;
+	margin:-50px 0 0 -35px;
+	width:70px;
+	height:70px;
+	border-radius:5px;
+	background:#000;
+	background:url("../images/popup-loading.gif") center no-repeat rgba(0,0,0,0.3);
+	z-index:999999;
+}

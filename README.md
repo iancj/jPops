@@ -114,7 +114,7 @@ $.jPops.progressUpdate({
 });
 ```
 
-**progress:**
+**loading:**
 ```js
 //显示loading
 $.jPops.showLoading();

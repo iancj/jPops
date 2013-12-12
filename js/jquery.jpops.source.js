@@ -8,7 +8,11 @@ jQuery.jPops={
 	conf:{
 		type:"alert",//弹窗类型
 		content:"内容",//提示窗内容
-		title:"温馨提示",
+		title:"温馨提示",//标题
+		width:400,//宽度
+		height:"auto",//高度
+		minHeight:130,//最小高度
+		minWidth:"auto",//最小宽度
 		okButton:"确定",//确定按钮文字
 		cancelButton:"取消",//取消按钮文字
 		verticalOffset:0,//Y轴偏移量
@@ -176,10 +180,10 @@ jQuery.jPops={
 			btnClose=pop.find(".popup-close");//关闭按钮
 
 		popPrompt.hide();//隐藏prompt
-		popPanel.show();
+		popPanel.show();//按钮组
 
 		switch(opts.type){//alert类型不显示取消按钮
-			case "alert":btnCancel.hide();break;
+			case "alert":popPanel.hide();break;
 			case "confirm":btnCancel.show();break;
 			case "prompt":
 				popPrompt.show();
@@ -201,11 +205,16 @@ jQuery.jPops={
 			var popContentHeight=$(window).height()-80-popTitle.outerHeight()-popPanel.outerHeight();
 			popContent.css({
 				"height":popContentHeight,
-				"overflow":"auto"
+				"overflow-y":"auto"
 			});
 		}
 
-		pop.show();//显示窗体
+		pop.show().css({
+			width:opts.width,
+			height:opts.height,
+			minWidth:opts.minWidth,
+			minHeight:opts.minHeight
+		});
 
 		self.reposition(opts);//更新窗体位置
 
@@ -283,7 +292,7 @@ jQuery.jPops={
 			});
 		}
 		$(".popup-overlay").css({
-			"height": $(document).height(),
+			"height": $(window).height(),
 			"background": opts.overlayColor,
 			"opacity": opts.overlayOpacity
 		}).show();

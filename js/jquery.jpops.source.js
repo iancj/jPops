@@ -6,9 +6,9 @@
 
 jQuery.jPops={
 	conf:{
-		type:"alert",//弹窗类型
-		content:"内容",//提示窗内容
-		title:"温馨提示",//标题
+		//type:"alert",//弹窗类型
+		title:"提示",//标题
+		content:"内容",//内容
 		width:400,//宽度
 		height:"auto",//高度
 		minHeight:130,//最小高度
@@ -22,20 +22,20 @@ jQuery.jPops={
 		callback:null//回调函数
 	},
 	alert:function(options){
-		var opts=$.extend(this.conf,options);//合并配置参数
+		var opts=$.extend({},this.conf,options);//合并配置参数
 			opts.type="alert";//设定为alert类型
 
 		this.showAlerts(opts);
 	},
 	confirm:function(options){
-		var opts=$.extend(this.conf,options);//合并配置参数
+		var opts=$.extend({},this.conf,options);//合并配置参数
 			opts.type="confirm";//设定为confirm类型
 
 		this.showAlerts(opts);
 	},
 	prompt:function(options){
 		this.conf.defaultValue="";
-		var opts=$.extend(this.conf,options);//合并配置参数
+		var opts=$.extend({},this.conf,options);//合并配置参数
 			opts.type="prompt";//设定为prompt类型
 
 		this.showAlerts(opts);
@@ -44,7 +44,7 @@ jQuery.jPops={
 		this.conf.messageType="info";//信息窗类型
 		this.conf.messageTimging=1500;//信息窗显示时间
 		this.conf.messageAutoHide=true;//是否自动隐藏
-		var opts=$.extend(this.conf,options);//合并配置参数
+		var opts=$.extend({},this.conf,options);//合并配置参数
 			opts.type="message";//设定为message类型
 			
 		this.showAlerts(opts);
@@ -59,9 +59,9 @@ jQuery.jPops={
 		this.conf.progressType="";
 		this.conf.progressActived=false;
 
-		var opts=$.extend(this.conf,options);//合并配置参数
-			opts.type="progress";//设定为message类型
-			
+		var opts=$.extend({},this.conf,options);//合并配置参数
+			opts.type="progress";//设定为progress类型
+
 		if($(".popup-progress").length != 1){
 			var html='<div class="popup-progress">'+
 				'<h4 class="content"></h4>';
@@ -109,41 +109,43 @@ jQuery.jPops={
 			prgProgress=pop.find(".progress"),//进度条外层
 			prgBar=prgProgress.find(".bar");//进度条
 
-		options.type="progress";
+		var opts=$.extend({},this.conf,options);//合并配置参数
+		opts.type="progress";//设定为progress类型
+		opts.width=options.width;
 
 		for(key in options){
 			switch(key){
 				case "content":
-					prgContent.text(options.content);
+					prgContent.text(opts.content);
 					break;
-				case "width"://更新进度条容器总体宽度
-					pop.css("width",options.width);
-					break;
+				// case "width"://更新进度条容器总体宽度
+				// 	pop.css("width",opts.width);
+				// 	break;
 				case "progressPer"://更新进度条百分比
-					prgBar.css("width",options.progressPer+"%");
+					prgBar.css("width",opts.progressPer+"%");
 					break;
 				case "progressType"://更新进度条类型
-					prgBar.removeClass("bar-info bar-warning bar-success bar-danger").addClass("bar-"+options.progressType);
+					prgBar.removeClass("bar-info bar-warning bar-success bar-danger").addClass("bar-"+opts.progressType);
 					break;
 				case "progressActived"://更新进度条动画状态
-					if(options.progressActived){
+					if(opts.progressActived){
 						prgProgress.removeClass("progress-striped active")
 					}
 					else{
 						prgProgress.addClass("progress-striped active")
 					}
 				case "callback":
-					if(options.callback){
-						options.callback(true);
-						options.callback=null;
+					if(opts.callback){
+						opts.callback(true);
+						opts.callback=null;
 					}
 			}
 		}
 
-		this.reposition(options);
+		// this.reposition(opts);
 	},
 	progressHide:function(){
-		$(".popup-progress").hide();
+		$(".popup-progress").hide().css("width","auto");
 		this.hideOverlay();
 	},
 	showAlerts:function(opts){
@@ -183,7 +185,7 @@ jQuery.jPops={
 		popPanel.show();//按钮组
 
 		switch(opts.type){//alert类型不显示取消按钮
-			case "alert":popPanel.hide();break;
+			case "alert":btnCancel.hide();break;
 			case "confirm":btnCancel.show();break;
 			case "prompt":
 				popPrompt.show();
@@ -201,13 +203,13 @@ jQuery.jPops={
 		btnOk.text(opts.okButton);//更新确定按钮文字
 		btnCancel.text(opts.cancelButton);//更新取消按钮文字
 
-		if(pop.outerHeight()>=$(window).height()){
-			var popContentHeight=$(window).height()-80-popTitle.outerHeight()-popPanel.outerHeight();
-			popContent.css({
-				"height":popContentHeight,
-				"overflow-y":"auto"
-			});
-		}
+		// if(pop.outerHeight()>=$(window).height()){
+		// 	var popContentHeight=$(window).height()-80-popTitle.outerHeight()-popPanel.outerHeight();
+		// 	popContent.css({
+		// 		"height":popContentHeight,
+		// 		"overflow-y":"auto"
+		// 	});
+		// }
 
 		pop.show().css({
 			width:opts.width,
@@ -280,7 +282,9 @@ jQuery.jPops={
 		$(".popup-container").remove();
 		this.hideOverlay();
 	},
-	showOverlay:function(opts){
+	showOverlay:function(options){
+		var opts=$.extend({},this.conf,options);
+
 		if($(".popup-overlay").length<1){
 			$("body").append('<div class="popup-overlay"></div>');
 			$(".popup-overlay").css({
@@ -296,11 +300,24 @@ jQuery.jPops={
 			"background": opts.overlayColor,
 			"opacity": opts.overlayOpacity
 		}).show();
+
+		$("body").css("overflow","hidden");
 	},
 	hideOverlay:function(){
 		$(".popup-overlay").hide();
+		$("body").css("overflow","auto");
 	},
-	showLoading:function(){
+	showLoading:function(options){
+		if(options){
+			for(key in options){
+				switch(key){
+					case "showOverlay":
+					if(options[key]){
+						this.showOverlay(options);
+					}
+				}
+			}
+		}
 		if($(".popup-loading").length<1){
 			var html='<div class="popup-loading" style="display:none;"></div>';
 			$("body").append(html);
@@ -309,26 +326,45 @@ jQuery.jPops={
 	},
 	hideLoading:function(){
 		$(".popup-loading").fadeOut(300);
+		this.hideOverlay();
 	},
-	reposition:function(opts){
+	reposition:function(options){
 		//更新窗体位置
+		opts=$.extend({},this.conf,options);
 		switch(opts.type){
 			case "alert":
 			case "confirm":
 			case "message":
 			case "prompt":
-				var pop=$(".popup-container"),
+				var pop=$(".popup-container"),//弹窗主体
+					popContent=pop.find(".popup-content"),//内容
+					popTitle=pop.find(".popup-title"),//标题
+					popPanel=pop.find(".popup-panel"),//panel
 					windowHeight=$(window).height(),
 					windowWidth=$(window).width(),
 					popHeight=pop.outerHeight(),
 					position = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed'; 
 
+				if(pop.outerHeight()>=$(window).height()){
+					var popContentHeight=$(window).height()-80-popTitle.outerHeight()-popPanel.outerHeight();
+					popContent.css({
+						"height":popContentHeight,
+						"overflow-y":"auto"
+					});
+				}
+				else{
+					popContent.css({
+						"height":"auto"
+					});
+				}
+
 				pop.css({
 					"position": position,
 					"zIndex": 99999
 				});
-				var top = ((windowHeight/2) - (popHeight/2)) + opts.verticalOffset,
-					left = ((windowWidth/2) - (pop.outerWidth()/2)) + opts.horizontalOffset;
+
+				var top = (($(window).height()/2) - (pop.outerHeight()/2)) + opts.verticalOffset,
+					left = (($(window).width()/2) - (pop.outerWidth()/2)) + opts.horizontalOffset;
 
 				if( top < 0 ) top = 0;
 				if( left < 0 ) left = 0;
@@ -342,6 +378,8 @@ jQuery.jPops={
 					"top": top + 'px',
 					"left": left + 'px'
 				});
+
+
 
 				break;
 			case "progress":

@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>jQuery Plugin jPops</title>
     <link rel="stylesheet" href="css/jpops.source.css">
+    <link rel="stylesheet" href="css/bt.buttons.css">
+    <link rel="stylesheet" href="css/bt.progress.css">
     <style>
     .title{
         text-align:center;
@@ -30,7 +32,7 @@
         <a href="javascript:;" class="btn btn-danger j_msg" data-type="danger">message-danger</a>
         <a href="javascript:;" class="btn btn-primary j_progress">progress bar</a>
         <a href="javascript:;" class="btn btn-primary j_loading">loading</a>
-        <a href="javascript:;" class="btn btn-primary j_loading_hide">hide loading</a>
+        <!-- <a href="javascript:;" class="btn btn-primary j_loading_hide">hide loading</a> -->
     </div>
 
     <h1 class="title">progress bar示例</h1>
@@ -189,15 +191,14 @@
                         },1000)
                     }
                 });
-            },3000);
+            },2000);
         });
 
         $(".j_loading").click(function(){
-            $.jPops.showLoading();
-        });
-
-        $(".j_loading_hide").click(function(){
-            $.jPops.hideLoading();
+            $.jPops.showLoading({showOverlay:true});
+            setTimeout(function(){
+                $.jPops.hideLoading();
+            },2000);
         });
         
     });

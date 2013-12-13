@@ -129,15 +129,13 @@ _jPops使用了bootstrap2的按钮样式和进度条样式，可以在jpops.sour
 
 ##参数
 
-- **content** 提示窗内容
-- **title** 窗体标题
-- **defaultValue** prompt默认值
-- **messageType** message类型弹窗的风格[info|warning|success|danger]
-- **messageTimging** message类型弹窗的显示时间
-- **messageAutoHide** message类型弹窗是否自动隐藏(默认true)
-- **progressPer** 进度条百分比
-- **progressType** 进度条风格[info|warning|success|danger]
-- **progressActived** 是否显示进度条动画
+###通用参数
+- **title** 标题
+- **content** 内容
+- **width** 宽度
+- **height** 高度
+- **minHeight** 最小高度
+- **minWidth** 最小宽度
 - **okButton** 确定按钮文字
 - **cancelButton** 取消按钮文字
 - **verticalOffset** Y轴偏移量
@@ -145,3 +143,19 @@ _jPops使用了bootstrap2的按钮样式和进度条样式，可以在jpops.sour
 - **overlayOpacity**  遮罩层透明度
 - **overlayColor**  遮罩层背景色
 - **callback** 回调函数
+
+######prompt 弹窗可选参数
+- **defaultValue** prompt默认值
+
+######message 弹窗可选参数
+- **messageType** 风格[info|warning|success|danger]
+- **messageTimging** 显示时间
+- **messageAutoHide** 是否自动隐藏(默认true)
+
+######progress 弹窗可选参数
+- **progressPer** 百分比
+- **progressType** 风格[info|warning|success|danger]
+- **progressActived** 是否显示动画
+
+######loading 可选参数
+- **showOverlay** 是否显示遮罩层

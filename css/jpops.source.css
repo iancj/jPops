@@ -105,7 +105,8 @@ body{font-family:"microsoft yahei";}
 	width:70px;
 	height:70px;
 	border-radius:5px;
-	background:#000;
-	background:url("../Images/popup-loading.gif") center no-repeat rgba(0,0,0,0.3);
+	background:url("../Images/popup-loading.gif") center no-repeat;
+	background-color:#666;
+	background-color:rgba(0,0,0,0.3);
 	z-index:999999;
 }

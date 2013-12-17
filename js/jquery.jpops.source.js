@@ -308,21 +308,23 @@ jQuery.jPops={
 		$("body").css("overflow","auto");
 	},
 	showLoading:function(options){
-		if(options){
-			for(key in options){
-				switch(key){
-					case "showOverlay":
-					if(options[key]){
-						this.showOverlay(options);
-					}
-				}
-			}
-		}
+		// if(options){
+		// 	for(key in options){
+		// 		switch(key){
+		// 			case "showOverlay":
+		// 			if(options[key]){
+		// 				this.showOverlay(options);
+		// 			}
+		// 		}
+		// 	}
+		// }
 		if($(".popup-loading").length<1){
 			var html='<div class="popup-loading" style="display:none;"></div>';
 			$("body").append(html);
 		}
+		this.showOverlay();
 		$(".popup-loading").fadeIn(300);
+
 	},
 	hideLoading:function(){
 		$(".popup-loading").fadeOut(300);

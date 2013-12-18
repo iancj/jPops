@@ -19,6 +19,7 @@ jQuery.jPops={
 		horizontalOffset:0,//X轴偏移量
 		overlayOpacity: 0.5,// 遮罩层透明度
 		overlayColor: "#000",// 遮罩层背景色
+		clickToClose:true,//是否点击确定按钮移除窗口
 		callback:null//回调函数
 	},
 	alert:function(options){
@@ -223,6 +224,11 @@ jQuery.jPops={
 		if(opts.type!="message"){
 			//确定按钮事件
 			btnOk.click(function(){
+				//触发callback是否自动关闭窗口
+				if(opts.clickToClose){
+					self.hideAlerts();
+				}
+
 				if(opts.callback){
 					if(opts.type=="prompt"){
 						var val=$(".popup-container").find(".popup-prompt input").val();
@@ -231,9 +237,12 @@ jQuery.jPops={
 					else{
 						opts.callback(true);
 					}
-					opts.callback=null;
+					
+					if(opts.clickToClose){
+						opts.callback=null;
+					}
 				}
-				self.hideAlerts();
+
 				return false;
 			});
 
@@ -296,7 +305,7 @@ jQuery.jPops={
 			});
 		}
 		$(".popup-overlay").css({
-			"height": $(window).height(),
+			"height": $("body").height(),
 			"background": opts.overlayColor,
 			"opacity": opts.overlayOpacity
 		}).show();

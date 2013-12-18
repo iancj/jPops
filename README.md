@@ -142,6 +142,7 @@ _jPops使用了bootstrap2的按钮样式和进度条样式，可以在jpops.sour
 - **horizontalOffset** X轴偏移量
 - **overlayOpacity**  遮罩层透明度
 - **overlayColor**  遮罩层背景色
+- **clickToClose** 执行完回调函数后是否自动关闭弹窗
 - **callback** 回调函数
 
 ######prompt 弹窗可选参数

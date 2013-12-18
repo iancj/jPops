@@ -224,14 +224,10 @@ jQuery.jPops={
 		if(opts.type!="message"){
 			//确定按钮事件
 			btnOk.click(function(){
-				//触发callback是否自动关闭窗口
-				if(opts.clickToClose){
-					self.hideAlerts();
-				}
 
 				if(opts.callback){
 					if(opts.type=="prompt"){
-						var val=$(".popup-container").find(".popup-prompt input").val();
+						var val=$(".popup-container").find(".popup-prompt").find("input").val();
 						opts.callback(val);
 					}
 					else{
@@ -241,6 +237,11 @@ jQuery.jPops={
 					if(opts.clickToClose){
 						opts.callback=null;
 					}
+				}
+
+				//触发callback是否自动关闭窗口
+				if(opts.clickToClose){
+					self.hideAlerts();
 				}
 
 				return false;

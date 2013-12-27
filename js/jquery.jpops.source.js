@@ -20,6 +20,7 @@ jQuery.jPops={
 		overlayOpacity: 0.5,// 遮罩层透明度
 		overlayColor: "#000",// 遮罩层背景色
 		clickToClose:true,//是否点击确定按钮移除窗口
+		singleText:true,//是否显示为单文本模式
 		callback:null//回调函数
 	},
 	alert:function(options){
@@ -197,6 +198,11 @@ jQuery.jPops={
 				popPanel.hide();
 				pop.removeClass("info warning success danger").addClass(opts.messageType);
 				break;
+		}
+
+		//假如为单文本模式，则设置字体居中和行高
+		if(opts.singleText){
+			opts.content="<div style='text-align:center;line-height:70px;'>"+opts.content+"</div>";
 		}
 
 		popTitle.text(opts.title);//更新标题

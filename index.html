@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>jQuery Plugin jPops</title>
-    <link rel="stylesheet" href="css/jpops.css">
+    <link rel="stylesheet" href="css/jpops.source.css">
     <link rel="stylesheet" href="css/bt.buttons.css">
     <link rel="stylesheet" href="css/bt.progress.css">
     <style>
@@ -85,7 +85,7 @@
     </div>
 
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-    <script src="js/jquery.jpops.js"></script>
+    <script src="js/jquery.jpops.source.js"></script>
     <script>
     $(function() {
         $("#j_alert").click(function() {
@@ -107,7 +107,7 @@
                 content:"这是测试信息-confirm",
                 okButton:"确定",
                 cancelButton:"取消",
-                clickToClose:false,
+                // clickToClose:false,
                 callback:function(r){
                     if(r){
                         console.log("我是confirm的回调,true");
@@ -146,6 +146,7 @@
                 content:html,
                 okButton:"确定",
                 cancelButton:"取消",
+                singleText:false,
                 callback:function(r){
                     if(r){
                         console.log("我是自定义html的回调,true");

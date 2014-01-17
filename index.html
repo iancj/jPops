@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>jQuery Plugin jPops</title>
-    <link rel="stylesheet" href="css/jpops.source.css">
-    <link rel="stylesheet" href="css/bt.buttons.css">
-    <link rel="stylesheet" href="css/bt.progress.css">
+    <link rel="stylesheet" href="css/jquery.jpops.min.css">
     <style>
     .title{
         text-align:center;
@@ -85,13 +83,13 @@
     </div>
 
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-    <script src="js/jquery.jpops.source.js"></script>
+    <script src="js/jquery.jpops.min.js"></script>
     <script>
     $(function() {
         $("#j_alert").click(function() {
            $.jPops.alert({
                 title:"这是标题-alert",
-                content:"这是测试信息-alert",
+                content:"测试信息测试信息-alert",
                 okButton:"确定",
                 callback:function(r){
                     if(r){
@@ -104,7 +102,7 @@
         $("#j_confirm").click(function() {
              $.jPops.confirm({
                 title:"这是标题-confirm",
-                content:"这是测试信息-confirm",
+                content:"测试信息测试信息-confirm",
                 okButton:"确定",
                 cancelButton:"取消",
                 // clickToClose:false,
@@ -137,16 +135,14 @@
             });
         });
 
-        // var html = "<ul><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li></ul>";
         var html="<div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div><div>自定义html自定义html自定义html自定义html</div>";
 
         $("#j_cust").click(function() {
-           $.jPops.confirm({
+           $.jPops.custom({
                 title:"这是标题-自定义html",
                 content:html,
                 okButton:"确定",
                 cancelButton:"取消",
-                singleText:false,
                 callback:function(r){
                     if(r){
                         console.log("我是自定义html的回调,true");
@@ -165,6 +161,7 @@
                 content:"测试信息测试信息",
                 messageType:mtype,
                 messageTimging:2000,
+                messageAutoHide:false,
                 callback:function(r){
                     if(r){
                         console.log("我是message的回调");

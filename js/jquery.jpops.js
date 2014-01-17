@@ -42,6 +42,12 @@ jQuery.jPops={
 
 		this.showAlerts(opts);
 	},
+	custom:function(options){
+		var opts=$.extend({},this.conf,options);//合并配置参数
+			opts.type="custom";//设定为custom类型
+
+		this.showAlerts(opts);
+	},
 	message:function(options){
 		this.conf.messageType="info";//信息窗类型
 		this.conf.messageTimging=1500;//信息窗显示时间
@@ -120,9 +126,6 @@ jQuery.jPops={
 				case "content":
 					prgContent.text(opts.content);
 					break;
-				// case "width"://更新进度条容器总体宽度
-				// 	pop.css("width",opts.width);
-				// 	break;
 				case "progressPer"://更新进度条百分比
 					prgBar.css("width",opts.progressPer+"%");
 					break;
@@ -167,6 +170,7 @@ jQuery.jPops={
 
 			$("body").append(html);
 		}
+
 		this.showOverlay(opts);
 		if(this.timer){
 			clearTimeout(this.timer);
@@ -187,22 +191,36 @@ jQuery.jPops={
 		popPanel.show();//按钮组
 
 		switch(opts.type){//alert类型不显示取消按钮
-			case "alert":btnCancel.hide();break;
-			case "confirm":btnCancel.show();break;
+			case "alert":
+				btnCancel.hide();
+				opts.content="<div style='font-size:16px;padding:10px 0;line-height:1.5em;'>"+opts.content+"</div>";
+				break;
+			case "confirm":
+				btnCancel.show();
+				opts.content="<div style='font-size:16px;padding:10px 0;line-height:1.5em;'>"+opts.content+"</div>";
+				break;
 			case "prompt":
 				popPrompt.show();
 				btnCancel.show();
 				popPrompt.find("input").val(opts.defaultValue).focus().select();
+				opts.content="<div style='font-size:14px;font-weight:bold;line-height:1.5em;'>"+opts.content+"</div>";
+				break;
+			case "custom":
+				btnCancel.show();
 				break;
 			case "message":
 				popPanel.hide();
 				pop.removeClass("info warning success danger").addClass(opts.messageType);
+				opts.content="<div style='font-size:16px;padding:10px 0;line-height:1.5em;'>"+opts.content+"</div>";
+				popContent.css("marginBottom",0);
 				break;
 		}
 
-		//假如为单文本模式，则设置字体居中和行高
-		if(opts.singleText){
-			opts.content="<div style='text-align:center;line-height:70px;'>"+opts.content+"</div>";
+		if(opts.type=="alert" || opts.type=="confirm" || opts.type=="message"){
+			popMessage.css({
+				"paddingTop":10,
+				"paddingBottom":20
+			})
 		}
 
 		popTitle.text(opts.title);//更新标题
@@ -210,14 +228,7 @@ jQuery.jPops={
 		btnOk.text(opts.okButton);//更新确定按钮文字
 		btnCancel.text(opts.cancelButton);//更新取消按钮文字
 
-		// if(pop.outerHeight()>=$(window).height()){
-		// 	var popContentHeight=$(window).height()-80-popTitle.outerHeight()-popPanel.outerHeight();
-		// 	popContent.css({
-		// 		"height":popContentHeight,
-		// 		"overflow-y":"auto"
-		// 	});
-		// }
-
+		//显示窗体并窗体大小
 		pop.show().css({
 			width:opts.width,
 			height:opts.height,
@@ -227,6 +238,7 @@ jQuery.jPops={
 
 		self.reposition(opts);//更新窗体位置
 
+		//绑定事件
 		if(opts.type!="message"){
 			//确定按钮事件
 			btnOk.click(function(){
@@ -312,7 +324,7 @@ jQuery.jPops={
 			});
 		}
 		$(".popup-overlay").css({
-			"height": $("body").height(),
+			"height": $(window).height(),
 			"background": opts.overlayColor,
 			"opacity": opts.overlayOpacity
 		}).show();
@@ -324,16 +336,6 @@ jQuery.jPops={
 		$("body").css("overflow","auto");
 	},
 	showLoading:function(options){
-		// if(options){
-		// 	for(key in options){
-		// 		switch(key){
-		// 			case "showOverlay":
-		// 			if(options[key]){
-		// 				this.showOverlay(options);
-		// 			}
-		// 		}
-		// 	}
-		// }
 		if($(".popup-loading").length<1){
 			var html='<div class="popup-loading" style="display:none;"></div>';
 			$("body").append(html);
@@ -354,6 +356,7 @@ jQuery.jPops={
 			case "confirm":
 			case "message":
 			case "prompt":
+			case "custom":
 				var pop=$(".popup-container"),//弹窗主体
 					popContent=pop.find(".popup-content"),//内容
 					popTitle=pop.find(".popup-title"),//标题

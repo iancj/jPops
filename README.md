@@ -69,11 +69,11 @@ $.jPops.message({
 });
 ```
 
-**自定义html confirm:**
+**custom:**
 ```js
 var html="<div>测试自定义html</div>";
 
-$.jPops.confirm({
+$.jPops.custom({
     title:"这是标题-自定义html",
     content:html,
     okButton:"确定",
@@ -143,7 +143,6 @@ _jPops使用了bootstrap2的按钮样式和进度条样式，可以在jpops.sour
 - **overlayOpacity**  遮罩层透明度
 - **overlayColor**  遮罩层背景色
 - **clickToClose** 执行完回调函数后是否自动关闭弹窗
-- **singleText** 是否为单文本模式
 - **callback** 回调函数
 
 ######prompt 弹窗可选参数

@@ -1,27 +1,25 @@
 // jQuery Alert Dialogs Plugin
-// Version 2.0
+// Version 3.0
 // iancj
-// 2013-12-02
-// Visit http://github.com/iancj for more information
+// 2014-02-24
+// Visit http://github.com/iancj/jPops for more information
 
 jQuery.jPops={
 	conf:{
-		//type:"alert",//弹窗类型
 		title:"提示",//标题
 		content:"内容",//内容
-		width:400,//宽度
+		width:"auto",//宽度
 		height:"auto",//高度
-		minHeight:130,//最小高度
-		minWidth:"auto",//最小宽度
-		okButton:"确定",//确定按钮文字
-		cancelButton:"取消",//取消按钮文字
+		okBtnTxt:"确定",//确定按钮文字
+		cancelBtnTxt:"取消",//取消按钮文字
+		showBtns:true,//是否显示按钮组
 		verticalOffset:0,//Y轴偏移量
 		horizontalOffset:0,//X轴偏移量
 		overlayOpacity: 0.5,// 遮罩层透明度
 		overlayColor: "#000",// 遮罩层背景色
-		clickToClose:true,//是否点击确定按钮移除窗口
-		singleText:true,//是否显示为单文本模式
-		callback:null//回调函数
+		callback:null,
+		okCallback:null,//确定按钮回调函数
+		cancelCallback:null//取消按钮回调函数
 	},
 	alert:function(options){
 		var opts=$.extend({},this.conf,options);//合并配置参数
@@ -35,13 +33,6 @@ jQuery.jPops={
 
 		this.showAlerts(opts);
 	},
-	prompt:function(options){
-		this.conf.defaultValue="";
-		var opts=$.extend({},this.conf,options);//合并配置参数
-			opts.type="prompt";//设定为prompt类型
-
-		this.showAlerts(opts);
-	},
 	custom:function(options){
 		var opts=$.extend({},this.conf,options);//合并配置参数
 			opts.type="custom";//设定为custom类型
@@ -49,369 +40,252 @@ jQuery.jPops={
 		this.showAlerts(opts);
 	},
 	message:function(options){
-		this.conf.messageType="info";//信息窗类型
-		this.conf.messageTimging=1500;//信息窗显示时间
-		this.conf.messageAutoHide=true;//是否自动隐藏
+		this.conf.timing=1500;//信息窗显示时间
 		var opts=$.extend({},this.conf,options);//合并配置参数
 			opts.type="message";//设定为message类型
 			
 		this.showAlerts(opts);
 	},
-	progress:function(options){
-		if(this.timer){
-			clearTimeout(this.timer);
+	showAlerts:function(opts){
+		var self=this;
+
+		if($("#jpops").length<1){
+			var html='<div id="jpops" style="display:none;">'+
+				        '<div class="jpops-title">'+
+				            '<div id="jpops-title-txt"></div>'+
+				            '<a href="###" id="jpops-close"></a>'+
+				        '</div>'+
+				        '<div id="jpops-container"></div>'+
+				        '<div id="jpops-actions">'+
+				            '<a href="###" class="btn btn-blue" id="jpops-btn-ok">确定</a>'+
+				            '<a href="###" class="btn" id="jpops-btn-cancel">取消</a>'+
+				        '</div>'+
+				    '</div>';
+
+			$("body").append(html);
 		}
 
-		this.conf.width=500;
-		this.conf.progressPer=10;
-		this.conf.progressType="";
-		this.conf.progressActived=false;
+		var $jpops=$("#jpops"),
+			$title=$("#jpops-title-txt"),
+			$content=$("#jpops-container"),
+			$actions=$("#jpops-actions"),
+			$btnClose=$("#jpops-close"),
+			$btnOk=$("#jpops-btn-ok"),
+			$btnCancel=$("#jpops-btn-cancel");
 
-		var opts=$.extend({},this.conf,options);//合并配置参数
-			opts.type="progress";//设定为progress类型
+		$title.text(opts.title);//赋值标题
 
-		if($(".popup-progress").length != 1){
-			var html='<div class="popup-progress">'+
-				'<h4 class="content"></h4>';
-				if(opts.progressActived){
-					html+='<div class="progress progress-striped active">';
+		//显示内容，控制样式
+		switch(opts.type){
+			//信息弹窗
+			case "message":
+				$content.html('<p style="padding:30px 0;font-size:14px;">'+opts.content+'</p>');
+				$actions.hide();
+				$("#jpops").css("width",400);//最小窗口宽度为400px
+				break;
+			case "alert":
+				$content.html('<p style="padding:30px 0;font-size:14px;">'+opts.content+'</p>');
+				if(opts.showBtns){
+					$actions.show();
+					$btnCancel.hide();
 				}
 				else{
-					html+='<div class="progress">';
+					$actions.hide();
 				}
-				html+='<div class="bar"></div></div></div>';
-
-			$("body").append(html);
-		}
-		var pop=$(".popup-progress"),
-			popContent=pop.find(".content"),
-			popProgress=pop.find(".progress"),
-			popBar=pop.find(".bar"),
-			pos = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed'; 
-
-		popContent.text(opts.content);
-		popBar.css("width",opts.progressPer+"%").removeClass("bar-info bar-warning bar-success bar-danger").addClass("bar-"+opts.progressType);
-
-		if(opts.progressActived){
-			popProgress.addClass("progress-striped active")
-		}
-		else{
-			popProgress.removeClass("progress-striped active")
-		}
-
-		pop.show().css({
-			"width":opts.width,
-			"top":150,
-			"left":"50%",
-			"textAlign":"center",
-			"position": pos,
-			"zIndex": 99999
-		});
-
-		this.reposition(opts);
-		this.showOverlay(opts);
-	},
-	progressUpdate:function(options){
-		var pop=$(".popup-progress"),//进度条容器
-			prgContent=pop.find(".content"),//文字描述
-			prgProgress=pop.find(".progress"),//进度条外层
-			prgBar=prgProgress.find(".bar");//进度条
-
-		var opts=$.extend({},this.conf,options);//合并配置参数
-		opts.type="progress";//设定为progress类型
-		opts.width=options.width;
-
-		for(key in options){
-			switch(key){
-				case "content":
-					prgContent.text(opts.content);
-					break;
-				case "progressPer"://更新进度条百分比
-					prgBar.css("width",opts.progressPer+"%");
-					break;
-				case "progressType"://更新进度条类型
-					prgBar.removeClass("bar-info bar-warning bar-success bar-danger").addClass("bar-"+opts.progressType);
-					break;
-				case "progressActived"://更新进度条动画状态
-					if(opts.progressActived){
-						prgProgress.removeClass("progress-striped active")
-					}
-					else{
-						prgProgress.addClass("progress-striped active")
-					}
-				case "callback":
-					if(opts.callback){
-						opts.callback(true);
-						opts.callback=null;
-					}
-			}
-		}
-
-		// this.reposition(opts);
-	},
-	progressHide:function(){
-		$(".popup-progress").hide().css("width","auto");
-		this.hideOverlay();
-	},
-	showAlerts:function(opts){
-		if($(".popup-container").length<1){
-			var html='<div class="popup-container">' +
-						'<h1 class="popup-title"></h1>' +
-						'<a href="javascript:;" class="popup-close"></a>'+
-						'<div class="popup-content">' +
-							'<div class="popup-message"></div>' +
-							'<div class="popup-prompt"><input type="text"></div>'+
-						'</div>' +
-						'<div class="popup-panel">'+
-							'<a href="javascript:;" class="btn btn-primary popup-ok"></a> '+
-    						'<a href="javascript:;" class="btn popup-cancel"></a>'+
-						'</div>'+
-					'</div>';
-
-			$("body").append(html);
-		}
-
-		this.showOverlay(opts);
-		if(this.timer){
-			clearTimeout(this.timer);
-		}
-		
-		var self=this,
-			pop=$(".popup-container"),//主窗体
-			popTitle=pop.find(".popup-title"),//标题
-			popContent=pop.find(".popup-content"),//内容区域
-			popMessage=pop.find(".popup-message"),//信息区域
-			popPrompt=pop.find(".popup-prompt"),//prompt
-			popPanel=pop.find(".popup-panel"),//panel
-			btnOk=pop.find(".popup-ok"),//确定按钮
-			btnCancel=pop.find(".popup-cancel"),//取消按钮
-			btnClose=pop.find(".popup-close");//关闭按钮
-
-		popPrompt.hide();//隐藏prompt
-		popPanel.show();//按钮组
-
-		switch(opts.type){//alert类型不显示取消按钮
-			case "alert":
-				btnCancel.hide();
-				opts.content="<div style='font-size:16px;padding:10px 0;line-height:1.5em;'>"+opts.content+"</div>";
+				$("#jpops").css("width",400);//最小窗口宽度为400px
 				break;
 			case "confirm":
-				btnCancel.show();
-				opts.content="<div style='font-size:16px;padding:10px 0;line-height:1.5em;'>"+opts.content+"</div>";
-				break;
-			case "prompt":
-				popPrompt.show();
-				btnCancel.show();
-				popPrompt.find("input").val(opts.defaultValue).focus().select();
-				opts.content="<div style='font-size:14px;font-weight:bold;line-height:1.5em;'>"+opts.content+"</div>";
+				$content.html('<p style="padding:30px 0;font-size:14px;">'+opts.content+'</p>');
+				if(opts.showBtns){
+					$actions.show();
+					$btnCancel.show();
+				}
+				else{
+					$actions.hide();
+				}
+				$("#jpops").css("width",400);//最小窗口宽度为400px
 				break;
 			case "custom":
-				btnCancel.show();
+				$content.html(opts.content);
+				if(opts.showBtns){
+					$actions.show();
+					$btnCancel.show();
+				}
+				else{
+					$actions.hide();
+				}
+				//限制自定义弹窗的最大宽度
+				if($("#jpops").width()>=800){
+					$("#jpops").width(800);
+				}
+				else if($("#jpops").width()<400){
+					$("#jpops").width(400);
+				}
 				break;
-			case "message":
-				popPanel.hide();
-				pop.removeClass("info warning success danger").addClass(opts.messageType);
-				opts.content="<div style='font-size:16px;padding:10px 0;line-height:1.5em;'>"+opts.content+"</div>";
-				popContent.css("marginBottom",0);
-				break;
 		}
 
-		if(opts.type=="alert" || opts.type=="confirm" || opts.type=="message"){
-			popMessage.css({
-				"paddingTop":10,
-				"paddingBottom":20
-			})
-		}
-
-		popTitle.text(opts.title);//更新标题
-		popMessage.html(opts.content);//更新内容
-		btnOk.text(opts.okButton);//更新确定按钮文字
-		btnCancel.text(opts.cancelButton);//更新取消按钮文字
-
-		//显示窗体并窗体大小
-		pop.show().css({
-			width:opts.width,
-			height:opts.height,
-			minWidth:opts.minWidth,
-			minHeight:opts.minHeight
-		});
-
-		self.reposition(opts);//更新窗体位置
-
-		//绑定事件
-		if(opts.type!="message"){
-			//确定按钮事件
-			btnOk.click(function(){
-
-				if(opts.callback){
-					if(opts.type=="prompt"){
-						var val=$(".popup-container").find(".popup-prompt").find("input").val();
-						opts.callback(val);
-					}
-					else{
-						opts.callback(true);
-					}
-					
-					if(opts.clickToClose){
-						opts.callback=null;
-					}
-				}
-
-				//触发callback是否自动关闭窗口
-				if(opts.clickToClose){
-					self.hideAlerts();
-				}
-
-				return false;
-			});
-
-			// 取消按钮事件
-			btnCancel.click(function(){
-				if(opts.callback){
-					if(opts.type=="prompt"){
-						opts.callback(null);
-					}
-					else{
-						opts.callback(false);
-					}
-					opts.callback=null;
-				}
-				self.hideAlerts();
-				return false;
-			});
-
-			//关闭按钮事件
-			btnClose.click(function(){
-				self.hideAlerts();
-				return false;
-			});
-		}
-		else{//当类型为message时
-			var handler_closeMsg=function(){
-				pop.removeClass(opts.messageType);
-				btnClose.unbind("click");
-				if(opts.callback){
-					opts.callback(true);
-					opts.callback=null;
-				}
-				self.hideAlerts();
-			};
-
-			//计时器
-			if(opts.messageAutoHide){
-				self.timer=setTimeout(handler_closeMsg,opts.messageTimging);
+		// 绑定事件
+		//确定按钮
+		$btnOk.bind("click",function(){
+			var callback_return=false;
+			//执行回调函数
+			if(opts.callback!=null){
+				callback_return=opts.callback(true);
 			}
-			
-			//关闭按钮事件
-			btnClose.click(handler_closeMsg);
+			else if(opts.okCallback!=null){
+				callback_return=opts.okCallback();
+			}
+			//回调函数返回true时隐藏窗口
+			if(callback_return){
+				self.hideAlerts();//隐藏弹窗
+				opts.callback=null;//清空回调函数
+				opts.okCallback=null;
+			}
+		});
+		//取消按钮
+		$btnCancel.bind("click",function(){
+			var callback_return=false;
+			//执行回调函数
+			if(opts.callback!=null){
+				callback_return=opts.callback(false);
+			}
+			else if(opts.cancelCallback!=null){
+				callback_return=opts.cancelCallback();
+			}
+			//回调函数返回true时隐藏窗口
+			if(callback_return){
+				self.hideAlerts();//隐藏弹窗
+				opts.callback=null;//清空回调函数
+				opts.cancelCallback=null;
+			}
+		});
+		//关闭窗口
+		$btnClose.bind("click",function(){
+			self.hideAlerts(self);
+			opts.callback=null;//清空回调函数
+			opts.okCallback=null;
+			opts.cancelCallback=null;
+		});
+		
+		$jpops.show();//显示窗口
+		if(opts.width!="auto"){
+			$jpops.width(opts.width)
+		}
+		if(opts.height!="auto"){
+			$content.height(opts.height);
+		}
+		this.showOverlay(opts);//显示遮罩
+		this.reposition(opts);//重置窗口到屏幕中心
+
+		//绑定信息提示的定时事件
+		if(opts.type=="message"){
+			var handler_hideMessage=function(){
+				var callback_return=true;
+				if(opts.callback!=null){
+					callback_return=opts.callback();
+				}
+				if(callback_return){
+					self.hideAlerts();//隐藏弹窗
+					opts.callback=null;//清空回调函数
+				}
+			}
+			if(self.timer){
+				clearTimeout(self.timer);
+			}
+			self.timer=setTimeout(handler_hideMessage,opts.timing);
 		}
 	},
 	hideAlerts:function(){
-		$(".popup-container").remove();
-		this.hideOverlay();
+		$("#jpops").hide().removeAttr("style");
+		$("#jpops-container").removeAttr("style");
+		this.hideOverlay();//隐藏遮罩
 	},
 	showOverlay:function(options){
-		var opts=$.extend({},this.conf,options);
 
-		if($(".popup-overlay").length<1){
-			$("body").append('<div class="popup-overlay"></div>');
-			$(".popup-overlay").css({
+		if($("#jpops-overlay").length<1){
+			$("body").append('<div id="jpops-overlay"></div>');
+			var body_height=$("body").height(),
+				win_height=$(window).height(),
+				overlay_height=0;
+
+			if(body_height<win_height){
+				overlay_height=win_height;
+			}
+			else{
+				overlay_height=body_height;
+			}
+
+			$("#jpops-overlay").css({
 				"position": 'absolute',
 				"zIndex": 99998,
 				"top": '0px',
 				"left": '0px',
-				"width": '100%'
+				"width": '100%',
+				"height": overlay_height,
+				"background": options.overlayColor,
+				"opacity": options.overlayOpacity
 			});
 		}
-		$(".popup-overlay").css({
-			"height": $(window).height(),
-			"background": opts.overlayColor,
-			"opacity": opts.overlayOpacity
-		}).show();
 
-		$("body").css("overflow","hidden");
+		$("#jpops-overlay").show();
 	},
 	hideOverlay:function(){
-		$(".popup-overlay").hide();
-		$("body").css("overflow","auto");
+		$("#jpops-overlay").hide();
 	},
 	showLoading:function(options){
-		if($(".popup-loading").length<1){
-			var html='<div class="popup-loading" style="display:none;"></div>';
+		var opts=$.extend({},this.conf,options);//合并配置参数
+
+		if($("#jpops-loading").length<1){
+			var html='<div id="jpops-loading" style="display:none;"></div>';
 			$("body").append(html);
 		}
-		this.showOverlay();
-		$(".popup-loading").fadeIn(300);
+		this.showOverlay(opts);
 
+		var $loading=$("#jpops-loading");
+
+		$loading.css({
+			"top":$(window).scrollTop()+$(window).height()/2-$loading.outerHeight()/2,
+			"left":$(window).width()/2-$loading.outerWidth()/2
+		});
+
+		$loading.fadeIn(300);
 	},
 	hideLoading:function(){
-		$(".popup-loading").fadeOut(300);
+		$("#jpops-loading").fadeOut(300);
 		this.hideOverlay();
 	},
 	reposition:function(options){
 		//更新窗体位置
-		opts=$.extend({},this.conf,options);
-		switch(opts.type){
-			case "alert":
-			case "confirm":
-			case "message":
-			case "prompt":
-			case "custom":
-				var pop=$(".popup-container"),//弹窗主体
-					popContent=pop.find(".popup-content"),//内容
-					popTitle=pop.find(".popup-title"),//标题
-					popPanel=pop.find(".popup-panel"),//panel
-					windowHeight=$(window).height(),
-					windowWidth=$(window).width(),
-					popHeight=pop.outerHeight(),
-					position = ($.browser.msie && parseInt($.browser.version) <= 6 ) ? 'absolute' : 'fixed'; 
+		var $jpops=$("#jpops"),
+			$title=$("#jpops-title-txt"),
+			$content=$("#jpops-container"),
+			$actions=$("#jpops-actions"),
+			jpops_width=$jpops.outerWidth(),
+			jpops_height=$jpops.outerHeight(),
+			win_width=$(window).width(),
+			win_height=$(window).height(),
+			verticalOffset=0,
+			horizontalOffset=0;
 
-				if(pop.outerHeight()>=$(window).height()){
-					var popContentHeight=$(window).height()-80-popTitle.outerHeight()-popPanel.outerHeight();
-					popContent.css({
-						"height":popContentHeight,
-						"overflow-y":"auto"
-					});
-				}
-				else{
-					popContent.css({
-						"height":"auto"
-					});
-				}
-
-				pop.css({
-					"position": position,
-					"zIndex": 99999
-				});
-
-				var top = (($(window).height()/2) - (pop.outerHeight()/2)) + opts.verticalOffset,
-					left = (($(window).width()/2) - (pop.outerWidth()/2)) + opts.horizontalOffset;
-
-				if( top < 0 ) top = 0;
-				if( left < 0 ) left = 0;
-				
-				// IE6 fix
-				if( $.browser.msie && parseInt($.browser.version) <= 6 ) {
-					top = top + $(window).scrollTop();
-				}
-
-				pop.css({
-					"top": top + 'px',
-					"left": left + 'px'
-				});
-
-
-
-				break;
-			case "progress":
-				$(".popup-progress").css({
-					"marginLeft":-opts.width/2
-				});
-				break;
+		if(options){
+			verticalOffset=options.verticalOffset,//水平偏移
+			horizontalOffset=options.horizontalOffset//垂直偏移;
 		}
-		
 
-		$(".popup-overlay").height( $(document).height() );
+		//当弹窗高度超出窗口高度时，进行调整
+		if(jpops_height>=win_height){
+			var con_height=win_height-$title.height()-$actions.height()-100;
+			$content.css({
+				"height":con_height,
+				"overflow":"auto"
+			});
+			jpops_height=$("#jpops").outerHeight();
+		}
+		//重置弹窗的位置为屏幕中心
+		$("#jpops").css({
+			"top":$(window).scrollTop()+win_height/2-jpops_height/2+horizontalOffset,
+			"left":win_width/2-jpops_width/2+verticalOffset
+		});
 	},
 	timer:null
 };

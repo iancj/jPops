@@ -9,10 +9,10 @@ jQuery.jPops={
 		//type:"alert",//弹窗类型
 		title:"提示",//标题
 		content:"内容",//内容
-		width:400,//宽度
+		width:"auto",//宽度
 		height:"auto",//高度
 		minHeight:130,//最小高度
-		minWidth:"auto",//最小宽度
+		minWidth:400,//最小宽度
 		okButton:"确定",//确定按钮文字
 		cancelButton:"取消",//取消按钮文字
 		verticalOffset:0,//Y轴偏移量

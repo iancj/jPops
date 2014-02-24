@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         uglify: {
             comm_v1: {
                 files: {
-                    'dist/js/jquery.jpops.min.js': ['js/jquery.jpops.js']
+                    'dist/jquery.jpops.min.js': ['js/jquery.jpops.js']
                 }
             }
         },
@@ -14,19 +14,13 @@ module.exports = function(grunt) {
         cssmin: {
             comm_v1: {
                 files: {
-                    'dist/css/jquery.jpops.min.css': [
-                        'css/main.css',
-                        'css/buttons.css',
-                        'css/progress.css'
-                    ]
+                    'dist/jquery.jpops.min.css': ['css/main-fx.css']
                 }
             }
         },
         copy:{
             test:{
                 files:[
-                    {expand: true, src: ['css/*.css'], dest: 'dist/', filter: 'isFile'},
-                    {expand: true, src: ['js/*.js'], dest: 'dist/', filter: 'isFile'},
                     {expand: true, src: ['Images/*'], dest: 'dist/', filter: 'isFile'}
                 ]
             }

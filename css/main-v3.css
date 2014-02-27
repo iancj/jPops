@@ -38,12 +38,15 @@ textarea{resize:none;}
 	display:block;
 	width:14px;
 	height:14px;
-	background:url("../Images/remove.png") no-repeat;
-	_background:url("../Images/remove.gif") no-repeat;
+	background:url("Images/remove.png") no-repeat;
+	_background:url("Images/remove.gif") no-repeat;
 	z-index:999999;
 }
 #jpops-container{
 	padding:10px;
+	overflow:hidden;
+	overflow-y:auto;
+	overflow-x:auto;
 }
 #jpops-actions{
 	text-align:right;
@@ -60,7 +63,7 @@ textarea{resize:none;}
 	left:0;
 	width:70px;
 	height:70px;
-	background:url("../Images/loading.gif") center no-repeat;
+	background:url("Images/loading.gif") center no-repeat;
 	background-color:#eee;
 	z-index:999999;
 }

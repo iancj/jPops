@@ -4,24 +4,31 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         //Js min task
         uglify: {
-            comm_v1: {
+            jm: {
                 files: {
-                    'dist/jquery.jpops.min.js': ['js/jquery.jpops.js']
+                    'dist/jquery.jpops.min-v2.js': ['js/jquery.jpops-v2.js'],
+                    'dist/jquery.jpops.min-v3.js': ['js/jquery.jpops-v3.js']
                 }
             }
         },
         //Css min task
         cssmin: {
-            comm_v1: {
+            cm: {
                 files: {
-                    'dist/jquery.jpops.min.css': ['css/main-fx.css']
+                    'dist/jquery.jpops.min-v2.css': ['css/main-v2.css'],
+                    'dist/jquery.jpops.min-v3.css': ['css/main-v3.css']
                 }
             }
         },
         copy:{
             test:{
                 files:[
-                    {expand: true, src: ['Images/*'], dest: 'dist/', filter: 'isFile'}
+                    {
+                        expand: true,
+                        cwd:'css/Images/',
+                        src: ['**/*.*'], 
+                        dest: 'dist/Images', 
+                        filter: 'isFile'}
                 ]
             }
         }

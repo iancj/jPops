@@ -13,8 +13,8 @@ jQuery.jPops={
 		okBtnTxt:"确定",//确定按钮文字
 		cancelBtnTxt:"取消",//取消按钮文字
 		showBtns:true,//是否显示按钮组
-		verticalOffset:0,//Y轴偏移量
-		horizontalOffset:0,//X轴偏移量
+		verticalOffset:0,//垂直偏移量
+		horizontalOffset:0,//水平偏移量
 		overlayOpacity: 0.5,// 遮罩层透明度
 		overlayColor: "#000",// 遮罩层背景色
 		callback:null,
@@ -65,23 +65,23 @@ jQuery.jPops={
 			$("body").append(html);
 		}
 
-		var $jpops=$("#jpops"),
-			$title=$("#jpops-title-txt"),
-			$content=$("#jpops-container"),
-			$actions=$("#jpops-actions"),
-			$btnClose=$("#jpops-close"),
-			$btnOk=$("#jpops-btn-ok"),
-			$btnCancel=$("#jpops-btn-cancel");
+		var $jpops=$("#jpops"),//窗体
+			$title=$("#jpops-title-txt"),//标题
+			$content=$("#jpops-container"),//内容容器
+			$actions=$("#jpops-actions"),//按钮容器
+			$btnClose=$("#jpops-close"),//关闭按钮
+			$btnOk=$("#jpops-btn-ok"),//确定按钮
+			$btnCancel=$("#jpops-btn-cancel");//取消按钮
 
 		$title.text(opts.title);//赋值标题
+		$btnOk.text(opts.okBtnTxt);//按钮文字
+		$btnCancel.text(opts.cancelBtnTxt);//按钮文字
 
-		//显示内容，控制样式
+		//控制显示内容
 		switch(opts.type){
-			//信息弹窗
 			case "message":
 				$content.html('<p style="padding:30px 0;font-size:14px;">'+opts.content+'</p>');
 				$actions.hide();
-				$("#jpops").css("width",400);//最小窗口宽度为400px
 				break;
 			case "alert":
 				$content.html('<p style="padding:30px 0;font-size:14px;">'+opts.content+'</p>');
@@ -92,7 +92,6 @@ jQuery.jPops={
 				else{
 					$actions.hide();
 				}
-				$("#jpops").css("width",400);//最小窗口宽度为400px
 				break;
 			case "confirm":
 				$content.html('<p style="padding:30px 0;font-size:14px;">'+opts.content+'</p>');
@@ -103,7 +102,6 @@ jQuery.jPops={
 				else{
 					$actions.hide();
 				}
-				$("#jpops").css("width",400);//最小窗口宽度为400px
 				break;
 			case "custom":
 				$content.html(opts.content);
@@ -114,17 +112,10 @@ jQuery.jPops={
 				else{
 					$actions.hide();
 				}
-				//限制自定义弹窗的最大宽度
-				if($("#jpops").width()>=800){
-					$("#jpops").width(800);
-				}
-				else if($("#jpops").width()<400){
-					$("#jpops").width(400);
-				}
 				break;
 		}
 
-		// 绑定事件
+		//绑定事件
 		//确定按钮
 		$btnOk.bind("click",function(){
 			var callback_return=false;
@@ -168,12 +159,34 @@ jQuery.jPops={
 		});
 		
 		$jpops.show();//显示窗口
+
+		//控制窗体样式
 		if(opts.width!="auto"){
-			$jpops.width(opts.width)
+			$jpops.width(parseInt(opts.width));
 		}
+		else{
+			switch(opts.type){
+				case "message":
+				case "alert":
+				case "confirm":
+					$("#jpops").css("width",400);//最小窗口宽度为400px
+					break;
+				case "custom":
+					//限制自定义弹窗的最大宽度
+					if($("#jpops").width()>=900){
+						$("#jpops").width(900);
+					}
+					else if($("#jpops").width()<500){
+						$("#jpops").width(500);
+					}
+					break;
+			}
+		}
+		
 		if(opts.height!="auto"){
-			$content.height(opts.height);
+			$content.height(parseInt(opts.height));
 		}
+
 		this.showOverlay(opts);//显示遮罩
 		this.reposition(opts);//重置窗口到屏幕中心
 
@@ -256,16 +269,16 @@ jQuery.jPops={
 	},
 	reposition:function(options){
 		//更新窗体位置
-		var $jpops=$("#jpops"),
-			$title=$("#jpops-title-txt"),
-			$content=$("#jpops-container"),
-			$actions=$("#jpops-actions"),
-			jpops_width=$jpops.outerWidth(),
-			jpops_height=$jpops.outerHeight(),
-			win_width=$(window).width(),
-			win_height=$(window).height(),
-			verticalOffset=0,
-			horizontalOffset=0;
+		var $jpops=$("#jpops"),//窗体
+			$title=$("#jpops-title-txt"),//标题
+			$content=$("#jpops-container"),//内容容器
+			$actions=$("#jpops-actions"),//按钮容器
+			jpops_width=$jpops.outerWidth(),//窗体宽度
+			jpops_height=$jpops.outerHeight(),//窗体高度
+			win_width=$(window).width(),//浏览器窗口宽度
+			win_height=$(window).height(),//浏览器窗口高度
+			verticalOffset=0,//垂直偏移值
+			horizontalOffset=0;//水平偏移值
 
 		if(options){
 			verticalOffset=options.verticalOffset,//水平偏移

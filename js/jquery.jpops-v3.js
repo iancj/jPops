@@ -17,7 +17,7 @@ jQuery.jPops={
 		horizontalOffset:0,//水平偏移量
 		overlayOpacity: 0.5,// 遮罩层透明度
 		overlayColor: "#000",// 遮罩层背景色
-		callback:null,
+		callback:null,//默认回调函数
 		okCallback:null,//确定按钮回调函数
 		cancelCallback:null//取消按钮回调函数
 	},

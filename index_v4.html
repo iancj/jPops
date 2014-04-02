@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>jQuery Plugin jPops</title>
     <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/main-v3.css">
+    <link rel="stylesheet" href="css/main-v4.css">
     <!-- <link rel="stylesheet" href="dist/jquery.jpops.min.css"> -->
     <link rel="stylesheet" href="css/buttons-fx.css">
     <style>
@@ -22,75 +22,66 @@
 
 <body>
 
-    <h1 class="title">jPops示例</h1>
+    <h1 class="title">jPops示例(静态扩展)</h1>
     <div class="box">
         <a href="###" class="btn btn-primary" id="j_alert">alert</a>
         <a href="###" class="btn btn-primary" id="j_confirm">confirm</a>
-        <!-- <a href="###" class="btn btn-primary" id="j_prompt">prompt</a> -->
         <a href="###" class="btn btn-primary" id="j_cust">custom</a>
         <a href="###" class="btn btn-info j_msg">message</a>
-     <!--    <a href="###" class="btn btn-warning j_msg" data-type="warning">message-warning</a>
-        <a href="###" class="btn btn-success j_msg" data-type="success">message-success</a>
-        <a href="###" class="btn btn-danger j_msg" data-type="danger">message-danger</a> -->
-        <!-- <a href="###" class="btn btn-primary j_progress">progress bar</a> -->
         <a href="###" class="btn btn-primary j_loading">loading</a>
-        <!-- <a href="javascript:;" class="btn btn-primary j_loading_hide">hide loading</a> -->
     </div>
 
-    <h1 class="title">progress bar示例</h1>
-
-    <div  class="box" style="width:70%;margin:0 auto;">
-        <h4>默认</h4>
-        <div class="progress">
-            <div class="bar" style="width: 60%;"></div>
-        </div>
-        <!-- demo1 -->
-
-        <h4>静态</h4>
-        <div class="progress progress-striped">
-            <div class="bar" style="width: 20%;"></div>
-        </div>
-        <!-- demo2 -->
-
-        <h4>动态</h4>
-        <div class="progress progress-striped active">
-            <div class="bar" style="width: 20%;"></div>
-        </div>
-        <!-- demo3 -->
-
-        <h4>不同颜色组成 success warning danger</h4>
-        <div class="progress">
-            <div class="bar bar-success" style="width: 35%;"></div>
-            <div class="bar bar-warning" style="width: 20%;"></div>
-            <div class="bar bar-danger" style="width: 10%;"></div>
-        </div>
-        <!-- demo4 -->
-
-        <h4>success</h4>
-        <div class="progress progress-striped active">
-            <div class="bar bar-success" style="width: 35%;"></div>
-        </div>
-        <!-- demo5 -->
-
-        <h4>warning</h4>
-        <div class="progress progress-striped active">
-            <div class="bar bar-warning" style="width: 20%;"></div>
-        </div>
-        <!-- demo6 -->
-
-        <h4>danger</h4>
-        <div class="progress progress-striped active">
-            <div class="bar bar-danger" style="width: 10%;"></div>
-        </div>
-        <!-- demo7 -->
-
+    <h1 class="title">jPops示例(对象扩展)</h1>
+    <div class="box">
+        <a href="#box1" class="btn btn-primary j-obbox" title="我是标题啊1" data-rule="box">box1</a>
+        <a href="#box2" class="btn btn-primary j-obbox" title="我是标题啊2" data-rule="box">box2</a>
     </div>
+
+    <div style="display:block;" class="aa">
+        <div id="box1">
+            <button id="testhide">hide</button>
+            <p>test</p>
+            
+        </div>
+    </div>
+
+    <div style="display:block;" class="bb">
+        <a id="box2" href="###">box2</a>
+    </div>
+
+    <div style="display:block;" class="bb">
+        <a id="box3" href="###">box3box3box3box3box3box3box3box3box3box3box3box3box3box3box3</a>
+    </div>
+
+   <!--  <div class="jbox">
+        <div class="jbox-title">
+            <div class="jbox-title-txt">这是标题-alert</div>
+            <a href="###" class="jbox-close"></a>
+        </div>
+        <div class="jbox-container">
+            content
+        </div>
+    </div> -->
+    
 
     <script src="js/jquery-1.8.3.min.js"></script>
-    <script src="js/jquery.jpops-v3.js"></script>
+    <script src="js/jquery.jpops-v4.js"></script>
     <!--<script src="dist/jquery.jpops.min.js"></script>-->
     <script>
     $(function() {
+
+        // $("#box3").jBox();
+
+        $(".j-obbox").jBox({
+            width:500,
+            height:400,
+            onOpen:function(element){
+                $("#testhide").one("click",function(){
+                    $.jBoxClose(element);
+                })
+            }
+        });
+
         $("#j_alert").click(function() {
            $.jPops.alert({
                 title:"这是标题-alert",

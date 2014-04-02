@@ -1,9 +1,8 @@
 // jQuery Alert Dialogs Plugin
-// Version 3.0
+// Version 4.0
 // iancj
 // 2014-02-24
 // Visit http://github.com/iancj/jPops for more information
-
 jQuery.jPops={
 	conf:{
 		title:"提示",//标题
@@ -303,3 +302,91 @@ jQuery.jPops={
 	},
 	timer:null
 };
+
+$.fn.jPops=function(){
+	
+	if($("#jbox").length<1){
+		var html_jbox='<div class="jbox"><div class="jbox-title"><div class="jbox-title-txt">这是标题-alert</div><a href="###" class="jbox-close"></a></div><div class="jbox-container"></div></div>';
+		$("body").append(html_jbox);
+	}
+
+	var $jbox=$("#jbox"),//主窗体
+		$jbox_title=$jbox.find("#jbox-title-txt"),//标题
+		$jbox_close=$jbox.find("#jbox-close"),//关闭按钮
+		$jbox_container=$jbox.find("#jbox-container"),//内容容器
+		isIE=false;
+
+	var pbm={};
+
+	pbm.resize=function(){
+		var width=$jbox.outerWidth(),
+			height=$jbox.outerHeight();
+
+		$jbox.css({
+			"position":"fixed",
+			"top":"50%",
+			"left":"50%",
+			"marginLeft":-parseInt(width/2),
+			"marginTop":-parseInt(height/2)
+		});
+
+
+	}
+
+	return this.each(function(){
+		var $self=$(this),//A标签或者div容器
+			title=$self.attr("title") ? $self.attr("title") : "提示",
+			nodeType=$self.prop("nodeType"),//节点类型
+			nodeName=$self.prop("nodeName"),//节点名称
+			$content,//要弹出的内容
+			$curPanel,//内容原先所在的容器
+			selector;//内容的选择器
+
+		if(nodeType==1 && nodeName=="A"){
+
+			//弹出容器
+			$self.click(function(){
+				//如果窗体被占用则不执行任何操作
+				if($jbox.is(":visible")){
+					return;
+				}
+
+				//获取内容并插入到弹窗容器中
+				selector=$self.attr("href");
+				$content=$(selector);
+				$curPanel=$content.parent();
+				$content.appendTo($jbox_container);
+
+				//设置标题并显示弹窗
+				$jbox_title.text(title);
+				$jbox.show();
+
+				//重置窗口
+				pbm.resize();
+
+				//绑定关闭窗口
+				$jbox_close.one("click",function(){
+					$content.appendTo($curPanel);
+					$jbox.hide();
+				});
+
+				return false;
+			});
+
+			
+		}
+		else{
+			//直接显示当前容器
+		}
+	});
+};
+
+//show log
+function log(msg){
+	if(typeof console != "undefined"){
+		console.log(msg);
+	}
+	else{
+		alert(msg);
+	}
+}

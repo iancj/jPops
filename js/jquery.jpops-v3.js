@@ -150,13 +150,6 @@ jQuery.jPops={
 				opts.cancelCallback=null;
 			}
 		});
-		//关闭窗口
-		$btnClose.bind("click",function(){
-			self.hideAlerts(self);
-			opts.callback=null;//清空回调函数
-			opts.okCallback=null;
-			opts.cancelCallback=null;
-		});
 		
 		$jpops.show();//显示窗口
 
@@ -207,6 +200,18 @@ jQuery.jPops={
 			}
 			self.timer=setTimeout(handler_hideMessage,opts.timing);
 		}
+
+		//关闭窗口
+		$btnClose.bind("click",function(){
+			self.hideAlerts(self);
+			if(opts.type=="message"){
+				handler_hideMessage();
+			}
+			opts.callback=null;//清空回调函数
+			opts.okCallback=null;
+			opts.cancelCallback=null;
+		});
+
 	},
 	hideAlerts:function(){
 		$("#jpops").hide().removeAttr("style");

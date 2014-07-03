@@ -53,12 +53,12 @@ jQuery.jPops={
 			var html='<div id="jpops" style="display:none;">'+
 				        '<div class="jpops-title">'+
 				            '<div id="jpops-title-txt"></div>'+
-				            '<a href="###" id="jpops-close"></a>'+
+				            '<a href="javascript:;" id="jpops-close"></a>'+
 				        '</div>'+
 				        '<div id="jpops-container"></div>'+
 				        '<div id="jpops-actions">'+
-				            '<a href="###" class="btn btn-blue" id="jpops-btn-ok">确定</a>'+
-				            '<a href="###" class="btn" id="jpops-btn-cancel">取消</a>'+
+				            '<a href="javascript:;" class="btn btn-blue" id="jpops-btn-ok">确定</a>'+
+				            '<a href="javascript:;" class="btn" id="jpops-btn-cancel">取消</a>'+
 				        '</div>'+
 				    '</div>';
 
@@ -224,31 +224,34 @@ jQuery.jPops={
 			$("body").append('<div id="jpops-overlay"></div>');
 		}
 		
-		var body_height=$("body").height(),
-			win_height=$(window).height(),
-			overlay_height=0;
+		var winHeight=$(window).height(),
+			$overlay=$("#jpops-overlay");
 
-		if(body_height<win_height){
-			overlay_height=win_height;
-		}
-		else{
-			overlay_height=body_height;
-		}
-
-		$("#jpops-overlay").css({
-			"position": 'absolute',
+		$overlay.css({
+			"position": "fixed",
 			"zIndex": 99998,
 			"top": '0px',
 			"left": '0px',
 			"width": '100%',
-			"height": overlay_height,
+			"height": parseInt(winHeight),
 			"background": options.overlayColor,
 			"opacity": options.overlayOpacity
 		});
 
+		//fix ie6
+		if($.browser.msie && parseInt($.browser.version) <= 6){
+			$overlay.css({
+				"position": "absolute"
+			});
+			$(window).scroll(function() {
+				$overlay.css({"top":$(window).scrollTop()});
+			});
+		}
+
 		$("#jpops-overlay").show();
 	},
 	hideOverlay:function(){
+		if($("#jpops").is(":visible")) return;
 		$("#jpops-overlay").hide();
 	},
 	showLoading:function(options){

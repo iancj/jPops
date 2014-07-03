@@ -6,7 +6,6 @@ h1,h2,h3,h4,h5,h6{font-size:100%;}
 body{background-color:#e6e6e6;}
 /*body,input,select,textarea,button{font:normal 14px/100% "Microsoft YaHei","微软雅黑",Helvetica,"黑体",Arial,Tahoma;}*/
 body,input,select,textarea,button{font-family:"Microsoft YaHei","微软雅黑",Helvetica,"黑体",Arial,Tahoma;font-size:12px;}
-body,html{*position:relative;/*height:100%;*/}
 body.ohidden{overflow:hidden;}
 table{border-collapse:collapse;border-spacing:0;}
 img{border:none 0;}
